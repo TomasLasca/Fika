@@ -1,0 +1,8 @@
+    <div class="container pt-4">
+        <h1 class="pretty font-weight-bold text-center fs-1"> Estado del pedido </h1>
+        <div class="row detalle my-2 cursor-pointer">
+            <div> NRO PEDIDO: $pedido.getNro_pedido()</div>
+            <div>FECHA: $pedido.getFecha_pedido()</div>
+            <div>HORA: $pedido.getHora_pedido() </div>
+        </div>
+    </div>

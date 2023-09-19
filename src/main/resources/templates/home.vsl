@@ -1,0 +1,16 @@
+<div style="background: url(images/home.jpg); height: 100%;">
+<section class="home" id="home">
+    <div class="container my-auto">
+        <h3 class="pretty font-weight-bold text-center">Break time</h3>
+        <p class="pretty text-center">Los break-time tienen su lugar</p>
+        <div class="row text-center">
+            <div class="col">
+                <button class="btn btn-light-coffe"> Ordenar ahora </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="nosotros" class="p-1 text-center" style="background: var(--coffe-light)">
+Aguante la fikaneta papa
+</section>
+</div>

@@ -1,0 +1,12 @@
+*.class
+*.jar
+*.lst
+target/
+/target
+/target/test-classes/.netbeans_automatic_build
+/target/classes/MVC
+/target/classes/Velocity
+/target/classes
+/target/classes/Utils
+/target/generated-resources
+/target/generated-test-resources

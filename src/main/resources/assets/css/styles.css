@@ -1,0 +1,304 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 21 oct. 2022, 22:13:35
+    Author     : Martin
+*/
+
+:root {
+    --pink: #fdd6cf;
+    --gradient-pink: linear-gradient(to right, #cecece   0%, #fcb69f 100%);
+    --coffe-light: #CFB690;
+    --coffe-medium: #90603C;
+    --coffe-dark: #46392f;
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(.43, 1.1, .62, 1.08);
+    text-transform: capitalize;
+}
+
+header {
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--gradient-pink);
+    z-index: 1000;
+}
+
+
+html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+}
+
+html::-webkit-scrollbar {
+    width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: var(--pink);
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #e6c9e3;
+}
+
+*>img {
+    user-select: none;
+    pointer-events: none;
+}
+
+header img {
+    height: 4rem;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.product-image {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.navbar-toggler {
+    outline: none !important;
+    border: none !important;
+    font-size: 1.2rem;
+}
+
+.navbar ul li {
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding-left: 5px;
+}
+
+.navbar ul li a {
+    color: var(--coffe-medium);
+}
+
+.navbar ul li a:hover {
+    color: var(--coffe-dark);
+}
+
+
+.brand-name {
+    font-size: 1.3rem;
+}
+
+section#home, section#menu, section#carrito, section#reserva {
+    display: flex;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.pretty {
+    font-size: 90px;
+    text-transform: uppercase;
+    color:white;
+    text-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
+    line-height: 1;
+    padding:2rem 0;
+}
+
+p.pretty{
+    font-size: 25px;
+}
+
+
+.cerrar {
+    transition: all 0.5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    padding: 2px 17px;
+    color: white;
+    background-color: #00000099;
+    font-size: 28px;
+    border-radius: 100%;
+}
+
+.cerrar:hover {
+    background-color: #000000cc;
+    scale: 1.1;
+}
+
+.bg-pink {
+    --bs-bg-opacity: 1;
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+}
+
+.menu .card {
+    color: white;
+    border: none;
+    background-image: linear-gradient(to top, #90603C 0%, #dfa579 100%);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.modal-content {
+    border-radius: 15px !important;
+    background-image: linear-gradient(to top, #90603C 0%, #dfa579 100%);
+}
+
+.modal-body {
+    border-radius: 10px;
+}
+
+.title {
+    color: var(--coffe-light);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.price {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.menu .card .card-body :first-letter {
+    text-transform: capitalize;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.btn-pink {
+    color: white !important;
+    background-color: var(--pink) !important;
+}
+
+.btn-light-coffe {
+    color: white !important;
+    background-color: var(--coffe-light) !important;
+}
+
+.btn-dark-coffe {
+    color: white !important;
+    background-color: var(--coffe-dark) !important;
+}
+
+.btn-dark-coffe:hover {
+    transition: all 0.4s ease;
+    color: white !important;
+    background-color: var(--coffe-light) !important;
+}
+
+.btn-light-coffe:hover {
+    transition: all 0.4s ease;
+    color: white !important;
+    background-color: var(--coffe-dark) !important;
+}
+
+.contador {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: var(--coffe-light);
+    border-radius: 0.375rem;
+}
+
+.contador span {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.contador span.suma,
+.contador span.resta {
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+.contador span.suma:hover,
+.contador span.resta:hover {
+    transition: all 0.3s ease;
+    background-color: var(--coffe-dark);
+}
+
+.contador span.cantidad {
+    font-size: 1rem;
+}
+
+.detalle {
+    background-image: linear-gradient(to top, #90603C 0%, #dfa579 100%);
+    border-radius: 0.375rem;
+}
+
+.cantidad-item{
+    width: auto;
+    background: var(--coffe-light);
+    border-radius: 10px;
+    padding: 10px 20px
+}
+
+/* Notebooks */
+@media (max-width: 1200px) {
+    .navbar ul li {
+        font-weight: 600;
+        font-size: 1rem;
+        padding-left: 3px;
+    }
+
+    .navbar a img {
+        height: 3.5rem;
+        padding: 2px;
+        border-radius: 50%;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+    
+    .price {
+        font-size: 0.8rem;
+    }
+
+    .brand-name {
+        font-size: 1rem;
+    }
+
+}
+
+@media (max-width: 990px) {
+    .navbar ul li {
+        font-weight: 600;
+        font-size: 1rem;
+        padding-left: 3px;
+    }
+
+    .navbar a img {
+        height: 4rem;
+        padding: 2px;
+        border-radius: 50%;
+    }
+
+    .brand-name {
+        font-size: 1.3rem;
+    }
+}

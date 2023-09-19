@@ -1,0 +1,53 @@
+<div class="modal fade" id="modal-producto" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                    <span class="cerrar" data-bs-dismiss="modal">x</span>
+                    <img class="img-fluid product-image" src="images/$producto.getFoto()" alt="$producto.getNombre()">
+                    <div class="card-body p-3" style="color:white">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card-title">
+                                    $producto.getCategoria()
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                $producto.getNombre()
+                            </div>
+                        </div>
+                        <div id="card-detail" class="my-2 row">
+                            <div class="col">
+                                <div class="contador">
+                                    <span id="resta" class="resta">-</span>
+                                    <span id="cantidad" class="cantidad">1</span>
+                                    <span class="suma">+</span>
+                                </div>
+                            </div>
+                            <div class="price d-flex align-self-center justify-content-end col">
+                                $producto.getPrecio_vta()
+                            </div>
+                        </div>
+                        <div role="product-detail" class="row my-2">
+                            <p class="col">
+                                $producto.getDescripcion_producto()
+                            </p>
+                        </div>
+                        <div class="my-2 row">
+                            <div class="col">
+                                Volumen: <small>250ml</small> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-center col">
+                                <button class="font-weight-bold w-100 btn btn-light-coffe carrito" onclick="agregarCarrito($producto.getId())">
+                                    Agregar al carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

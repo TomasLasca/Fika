@@ -1,0 +1,63 @@
+<section id="verPedidos" class="verPedidos">
+<div class="mt-4 p-3 container-md card">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Número pedido</label>
+                <input type="text" class="form-control" placeholder="Número de pedido" aria-label="id pedido">
+            </div>
+        </div>
+        <div class="col alig-self-center">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Estado pedido</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Pendiente</option>
+                    <option>Entregado</option>
+                    <option>Rechazado</option>
+                    <option>Todos</option>
+                </select>
+            </div>
+        </div>
+        <div class="col align-self-end">
+            <button type="button" class="w-100 btn btn-light-coffe ">Buscar</button>
+        </div>
+    </div>
+</div>
+<div class="mt-4 container-md card">
+    <table class="mt-3 table">
+        <thead>
+            <tr>
+                <th scope="col">#Pedido</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Horario</th>
+                <th scope="col">Estado</th>
+                <th class="text-center" scope="col">Detalle</th>
+            </tr>
+        </thead>
+        <tbody>
+        #if($pedidos.size() == 0)
+        <tr>
+            <td class="text-center" colspan="6">
+                Sin resultados
+            </td>
+        </tr>
+        #end
+        #foreach($pedido in $pedidos)
+            <tr>
+                <th scope="row">$pedido.getNro_pedido()</th>
+                <td>$pedido.getId_usuario()</td>
+                <td>$pedido.getFecha_pedido()</td>
+                <td>$pedido.getHora_pedido() hs</td>
+                <td> Pendiente </td>
+                <td class="text-center">
+                    <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">
+                        info
+                    </span>
+                </td>
+            </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+</section>

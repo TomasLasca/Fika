@@ -1,0 +1,47 @@
+<section id="carrito-usuario" class="carrito" style="height: inherit;background: url(images/productos.jpeg);">
+    <div class="container pt-4">
+        <h1 class="pretty font-weight-bold text-center fs-1"> Carrito </h1>
+        #foreach($item in $itemCarrito)
+        <div class="row detalle my-2 cursor-pointer">
+            <div class="col col-md-3">
+                <img class="img-fluid p-2" src="images/$item.getProducto().getFoto()" alt="" width="80">
+            </div>
+            <div class="align-self-center col col-md fs-2">
+                $item.getProducto().getNombre()
+            </div>
+            <div class="align-self-center col col-md-2 text-center cantidad-item">
+                $item.getCantidad()
+            </div>
+            <div class="align-self-center text-end col col-md fs-2">
+                $item.getTotal()
+            </div>
+        </div>
+        #end
+        <div class="row p-3 detalle">
+	<div class="col-md-3">
+		<select class="form-select " id="pago">
+			<option value="1">Mercadopago</option>
+			<option value="2">Credito</option>
+			<option value="3">Debito</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<select class="form-select " id="hora">
+			<option value="8:00">8:00</option>
+			<option value="8:30">8:30</option>
+			<option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<input type="date" class="form-control" id="fecha">
+	</div>
+</div>
+        <div class="row justify-content-between my-2">
+            <div class="fs-1 detalle text-center col-md-4">
+                Total:   $total
+            </div>
+            <button class="col-md-3 mt-2 mt-md-0 btn btn-dark-coffe" onclick="finalizarPedido(0)"> Finalizar Pedido </button>
+        </div>
+    </div>
+</section>

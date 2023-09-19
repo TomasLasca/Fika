@@ -1,0 +1,56 @@
+<div id="modal-detail">
+</div>
+<section id="menu" class="menu" style="background: url(images/productos.jpeg);">
+    <div class="container pt-4">
+            <h1 class="pretty font-weight-bold text-center fs-1"> Productos </h1>
+        <div class="row">
+        #foreach($producto in $productos)
+            <div class="mt-2 col-6 col-lg-4" onclick="hola($producto.getId())">
+                <div class="card">
+                    <img class="img-fluid product-image" src="images/$producto.getFoto()" alt="$producto.getNombre()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col text-center title">
+                                $producto.getNombre()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center price">
+                                $producto.getPrecio_vta()
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        #end
+        </div>
+    </div>
+</section>
+<script> 
+$(document).ready(() => {
+
+    let resta = document.getElementsByClassName('resta');
+    let suma = document.getElementsByClassName('suma');
+
+    for (let i = 0; i < resta.length; i++ ) {
+        let boton_resta = resta[i];
+        let boton_suma = suma[i];
+
+        boton_resta.addEventListener('click', (e)=> {
+            let boton_resta_clickeado = event.target;
+            let contador = boton_resta_clickeado.parentElement.children[1];
+            if (contador.innerHTML>1) {
+                contador.innerHTML--;
+            }
+        });
+
+        boton_suma.addEventListener('click', (e)=> {
+            let boton_suma_clickeado = event.target;
+            let contador = boton_suma_clickeado.parentElement.children[1];
+                contador.innerHTML++;
+        });
+        
+    }
+    });
+</script>
