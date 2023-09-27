@@ -86,4 +86,43 @@ public class PedidoControlador {
              
     };
         
+        public static Route action = (Request request, Response response) -> {
+            PedidoDAO pedidoDAO = new PedidoDAO(); 
+            Pedido pedido = new Pedido();
+            int nuevoEstado;
+            boolean band = false;
+            boolean res = false;
+            int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
+            String accion = request.queryParams("accion");
+            if(accion.equals("eliminar")){
+                    System.out.println("eliminando pedido");
+                    pedidoDAO.CambioEstadoPedido(2,id_pedido);
+                    band=true;
+            }else{
+                pedido = pedidoDAO.getEstadoByNroPedido(id_pedido);
+                nuevoEstado = pedido.getId_estado();
+                System.out.println("estado a cambiar: " + String.valueOf(nuevoEstado));
+                if(accion.equals("siguiente")){
+                    if(nuevoEstado != 5){
+                        if(nuevoEstado+1 == 2)
+                            nuevoEstado++;
+                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado+1,id_pedido);
+                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
+                        band= true;
+                    }
+                }else{
+                    if(nuevoEstado != 1){
+                        if(nuevoEstado==3)
+                            nuevoEstado--;
+                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado-1,id_pedido);
+                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
+                        band= true;
+                    }
+                }
+            }
+            
+        
+        return 1;     
+        };
+        
 }
