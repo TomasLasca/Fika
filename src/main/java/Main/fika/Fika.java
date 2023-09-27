@@ -34,6 +34,7 @@ public class Fika {
         post("/pedido/finalizar",PedidoControlador.finalizar);
         get("/reserva",MesaControlador.getMesas);
         get("/admin/pedidos",PedidoControlador.viewPedidos);
+        post("/admin/pedidos/action",PedidoControlador.action);
         post("/insertarres",ReservaControlador.setReserva); 
     }
 }

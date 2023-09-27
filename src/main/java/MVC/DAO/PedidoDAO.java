@@ -7,6 +7,7 @@ package MVC.DAO;
 import MVC.Models.Pedido;
 import Utils.Sql2oDAO;
 import static Utils.Sql2oDAO.getSql2o;
+import java.sql.SQLException;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -17,11 +18,11 @@ import org.sql2o.Sql2o;
  */
 public class PedidoDAO {
      private List<Pedido> pedidos;
+     
+     Sql2o bd = getSql2o();
 
     public void cargarPedido(Pedido pedido){
-            Sql2o bd;
-        bd = getSql2o();
-        
+        pedido.setId_estado(1);
         try (Connection con = bd.open()) {
            
             String sql = "INSERT INTO pedidos VALUES(:nro_pedido, :id_estado, :id_usuario , :fecha_pedido, :hora_pedido, :id_metodo)";
@@ -34,8 +35,6 @@ public class PedidoDAO {
     }
     
     public List <Pedido> verPedidos(){
-                    Sql2o bd;
-        bd = getSql2o();
         
         try (Connection con = bd.open()) {
            
@@ -50,8 +49,6 @@ public class PedidoDAO {
     }
     
     public List<Pedido> ultimoIndex() {
-        Sql2o bd;
-        bd = getSql2o();
         
         try (Connection con = bd.open()) {
            
@@ -63,6 +60,62 @@ public class PedidoDAO {
         catch(Exception e) {
             System.out.println(e);}
       return pedidos;
+    }
+    
+    public boolean eliminarPedido(int id) {
+    boolean band = false;
+        try (Connection con = bd.open()) {      
+
+           String sqlDetalle = "DELETE FROM detallepedido WHERE nro_pedido = :id";
+        con.createQuery(sqlDetalle)
+            .addParameter("id", id)
+            .executeUpdate();
+
+        // Luego, elimina el pedido principal
+        String sqlPedido = "DELETE FROM pedidos WHERE nro_pedido = :id";
+        int rowCount = con.createQuery(sqlPedido)
+            .addParameter("id", id)
+            .executeUpdate().getResult();
+
+        // Si se eliminaron registros en ambas tablas, confirma la transacción
+        if (rowCount > 0) {
+            con.commit();
+            band = true;
+        } else {
+            con.rollback(); // Si no se eliminaron registros, haz un rollback
+        }
+        }catch(Exception e) {
+            System.out.println(e);
+        }
+    return band;
+    }
+    
+   public Pedido getEstadoByNroPedido(int nro) {
+    Pedido estado = null;
+    try (Connection con = bd.open()) {
+        String sql = "SELECT * FROM pedidos WHERE nro_pedido = :nro";
+        estado = con.createQuery(sql)
+            .addParameter("nro", nro)
+            .executeAndFetchFirst(Pedido.class);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return estado; // Error: sentencia 'return' inalcanzable
+    }
+    return estado;
+    }
+    
+    public boolean CambioEstadoPedido(int nuevoEstado,int id) {
+        boolean band=false;
+        try (Connection con = bd.open()) {
+                String sql = "UPDATE pedidos SET id_estado = :nuevoEstado WHERE nro_pedido = :id";
+                con.createQuery(sql).addParameter("nuevoEstado",nuevoEstado).addParameter("id",id)
+                    .executeUpdate();
+                band=true;
+            
+        }
+        catch(Exception e) {
+            System.out.println(e);}
+      return band;
     }
       
         
