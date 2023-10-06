@@ -1,0 +1,55 @@
+<section id="verCombos" class="verCombos" style="background: url(http://localhost:4567/images/home.jpg); height: 100%;" >
+<div >
+<div class="container" style="color:white;">
+    
+    <div class="row" style="margin-bottom:20px;">
+        <div class="col-md-6 mx-auto text-center bg-dark p-4 rounded" style="margin-bottom:20px;">
+        <input id="nombreCombo" type="text" class="form-control mr-2" placeholder="Inserte nombre del combo" style="margin-bottom:12px;">
+        <label for="bebida">Inserte bebida para el combo</label>
+            <div id="bebida" class="input-group mb-3">
+                <select class="form-control  mr-2" id="selectBebida">
+                #foreach($producto in $productobebida)
+                    <option value="$producto.getNombre()">$producto.getNombre()</option>
+                #end
+                </select>
+                <input id="cantBebida" type="number" class="form-control" placeholder="Cantidad" name="cantidad1" >
+            </div>
+            <label for="bebida">Inserte comida para el combo</label>
+            <div class="input-group mb-3" style="margin-bottom:20px;" >
+                <select class="form-control mr-2" id="selectComida">
+                #foreach($producto in $productocomida)
+                    <option value="$producto.getNombre()">$producto.getNombre()</option>
+                #end
+                </select>
+                <input id="cantComida" type="number" class="form-control mr-2 sm-2" placeholder="Cantidad" name="cantidad2">
+            </div>
+            <input id="descripcion" type="text" class="form-control mr-2" placeholder="Descripcion para el combo" style="margin-bottom:20px;">
+            <input id="precio" type="number" class="form-control mr-2" placeholder="Precio para el combo" style="margin-bottom:20px;">
+            <button class="btn btn-primary" onclick='agregarCombo()'>Guardar Combo</button>
+        </div>
+    </div>
+</div>
+<script>
+    function agregarCombo() {
+    // Este valor depende del login //
+    let nombreCombo = document.getElementById('nombreCombo').value;
+    let selectBebida = document.getElementById('selectBebida').value;
+    let cantBebida = document.getElementById('cantBebida').value;
+    let selectComida = document.getElementById('selectComida').value;
+    let cantComida = document.getElementById('cantComida').value;
+    let descripcion = document.getElementById('descripcion').value;
+    let precio = document.getElementById('precio').value;
+    console.log('combos/agregar?nombreCombo='+nombreCombo+"&selectBebida="+selectBebida+"&cantBebida="+cantBebida+"&selectComida="+selectComida+"&cantComida="+cantComida+"&descripcion="+descripcion+"&precio="+precio);
+    $.ajax({
+                type: 'POST',
+                url: 'combos/agregar?nombreCombo='+nombreCombo+"&selectBebida="+selectBebida+"&cantBebida="+cantBebida+"&selectComida="+selectComida+"&cantComida="+cantComida+"&descripcion="+descripcion+"&precio="+precio,
+                success: (result, status) => {
+                    console.log("Sali");
+                },
+                error: (xhr, status, err) => {
+
+                }
+        });
+}
+</script>
+</section>

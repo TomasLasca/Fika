@@ -6,6 +6,7 @@
 package Main.fika;
 
 import MVC.Controllers.CarritoControlador;
+import MVC.Controllers.ComboControlador;
 import MVC.Controllers.ItemCarritoControlador;
 import MVC.Controllers.MesaControlador;
 import MVC.Controllers.PedidoControlador;
@@ -34,7 +35,9 @@ public class Fika {
         post("/pedido/finalizar",PedidoControlador.finalizar);
         get("/reserva",MesaControlador.getMesas);
         get("/admin/pedidos",PedidoControlador.viewPedidos);
+        get("/admin/combos",ComboControlador.viewCombos);
         post("/admin/pedidos/action",PedidoControlador.action);
+        post("/admin/combos/agregar",ComboControlador.agregarCombo);
         post("/insertarres",ReservaControlador.setReserva); 
     }
 }
