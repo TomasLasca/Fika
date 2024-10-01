@@ -4,14 +4,14 @@
             <div class="mt-2 col-md-8">
                 <div class="card" style="">
                     <div class="card-body">
-                    <form name="formulario" class="form-row" >
+                    <form action='' method='post' name="formulario" class="form-row" >
                         <div class="form-group ">
-                            <label for="fecha_reserva">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" required>
+                            <label for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" value="$!request.queryParams("email")" aria-describedby="emailHelp" placeholder="Enter email">
                         </div>
                         <div class="form-group">
-                            <label for="nombre">Contraseña</label>
-                            <input type="password" class="form-control" name="contraseña" id="constraseña" required>
+                            <label for="exampleInputPassword1">Contraseña</label>
+                            <input type="password" class="form-control" name="pass" id="pass" placeholder="Password" >
                         </div>
                     </form>
                     </div>
@@ -23,8 +23,33 @@
         <button class="w-100 btn btn-pink "> Registro </button>
     </div>
     <div class="col-md-4">
-        <button class="w-100 btn btn-light-coffe"> Login </button>
+        <button type="submit" class="w-100 btn btn-light-coffe" onclick='logearse()'> Login </button>
     </div>
 </div>
     </div>
+
+<script>
+    function logearse(){
+    let email = document.getElementById('email').value;
+    let pass = document.getElementById('pass').value;
+    
+    console.log('/getLogin?email='+email+"&pass="+pass);
+    
+    $.ajax({
+                type: 'POST',
+                url: '/getLogin?email='+email+"&pass="+pass,
+                success: (result, status) => {
+                    console.log("Sali");
+                },
+                error: (xhr, status, err) => {
+
+                }
+
+
+
+        });
+}
+</script>
+
+
 </section>

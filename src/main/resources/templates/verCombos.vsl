@@ -3,7 +3,7 @@
 <div class="container" style="color:white;">
     
     <div class="row" style="margin-bottom:20px;">
-        <div class="col-md-6 mx-auto text-center bg-dark p-4 rounded" style="margin-bottom:20px;">
+        <div class="col-md-6 mx-auto text-center p-4 rounded" style="margin-bottom:20px;margin-top:60px;background-color: rgba(0, 0, 0, 0.5);">
         <input id="nombreCombo" type="text" class="form-control mr-2" placeholder="Inserte nombre del combo" style="margin-bottom:12px;">
         <label for="bebida">Inserte bebida para el combo</label>
             <div id="bebida" class="input-group mb-3">

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-11-2022 a las 22:40:51
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Tiempo de generación: 21-11-2023 a las 19:02:15
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,6 +42,33 @@ INSERT INTO `carrito` (`id_carrito`, `id_usuario`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `combos`
+--
+
+CREATE TABLE `combos` (
+  `id_combo` int(11) NOT NULL,
+  `id_comida` int(11) NOT NULL,
+  `cantComida` int(11) NOT NULL,
+  `id_bebida` int(11) NOT NULL,
+  `cantBebida` int(11) NOT NULL,
+  `precio` int(11) NOT NULL,
+  `descripcion` varchar(60) NOT NULL,
+  `visible` varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `combos`
+--
+
+INSERT INTO `combos` (`id_combo`, `id_comida`, `cantComida`, `id_bebida`, `cantBebida`, `precio`, `descripcion`, `visible`) VALUES
+(0, 0, 0, 2, 2, 69, 'combo', 'si'),
+(0, 2, 1, 2, 2, 234, 'combox', 'si'),
+(0, 2, 2, 2, 1, 234, 'asd', 'si'),
+(0, 2, 11, 2, 22, 34, 'asde', 'si');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `detallepedido`
 --
 
@@ -56,7 +83,12 @@ CREATE TABLE `detallepedido` (
 --
 
 INSERT INTO `detallepedido` (`nro_pedido`, `id_producto`, `cantidad_producto`) VALUES
-(1000, 2, 1);
+(13, 2, 1),
+(13, 3, 2),
+(13, 1, 2),
+(14, 3, 2),
+(15, 5, 1),
+(16, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -145,16 +177,19 @@ CREATE TABLE `pedidos` (
   `id_estado` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha_pedido` varchar(20) DEFAULT NULL,
-  `hora_pedido` varchar(10) DEFAULT NULL
+  `hora_pedido` varchar(10) DEFAULT NULL,
+  `id_metodo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`nro_pedido`, `id_estado`, `id_usuario`, `fecha_pedido`, `hora_pedido`) VALUES
-(0, 5, 0, '2022-11-22', '8:00'),
-(1000, 5, 0, '2022-11-22', '8:00');
+INSERT INTO `pedidos` (`nro_pedido`, `id_estado`, `id_usuario`, `fecha_pedido`, `hora_pedido`, `id_metodo`) VALUES
+(13, 5, 0, '', '8:00', 1),
+(14, 5, 0, '', '8:00', 1),
+(15, 1, 0, '', '8:00', 1),
+(16, 5, 0, '', '8:00', 1);
 
 -- --------------------------------------------------------
 
@@ -205,15 +240,50 @@ CREATE TABLE `reserva` (
 INSERT INTO `reserva` (`nro_reserva`, `fecha_reserva`, `estado`) VALUES
 (1, '2022-10-16', 'ocupado');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL,
+  `nombre_usuario` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `pass` varchar(20) NOT NULL,
+  `tipo_usuario` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `email`, `pass`, `tipo_usuario`) VALUES
+(1, 'admin', 'admin@gmail.com', 'admin', 'administrador'),
+(2, 'cliente1', 'cliente@gmail.com', 'cliente', 'cliente');
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `detallepedido`
+--
+ALTER TABLE `detallepedido`
+  ADD KEY `nro_pedido` (`nro_pedido`),
+  ADD KEY `id_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `mesa`
 --
 ALTER TABLE `mesa`
   ADD PRIMARY KEY (`nro_mesa`);
+
+--
+-- Indices de la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD PRIMARY KEY (`nro_pedido`);
 
 --
 -- Indices de la tabla `productos`
@@ -228,8 +298,20 @@ ALTER TABLE `reserva`
   ADD PRIMARY KEY (`nro_reserva`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id_usuario`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  MODIFY `nro_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
@@ -238,8 +320,21 @@ ALTER TABLE `reserva`
   MODIFY `nro_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `detallepedido`
+--
+ALTER TABLE `detallepedido`
+  ADD CONSTRAINT `detallepedido_ibfk_1` FOREIGN KEY (`nro_pedido`) REFERENCES `pedidos` (`nro_pedido`),
+  ADD CONSTRAINT `detallepedido_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`ID`);
 
 --
 -- Filtros para la tabla `reserva`

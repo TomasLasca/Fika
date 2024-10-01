@@ -57,12 +57,14 @@ public class ComboControlador {
         String precio = request.queryParams("precio");
         
         combo.setNombre(nombreCombo);
-        prod = pDAO.getProductoByNombre(selectBebida);
-        combo.setId_bebida(prod.getId());
+        System.out.println("ID bebida: "+selectBebida);
+        System.out.println("ID bebida: "+pDAO.getProductoByNombre(selectBebida).getId());
+        combo.setId_bebida(pDAO.getProductoByNombre(selectBebida).getId());
         combo.setCantBebida(Integer.parseInt(cantBebida));
-        prod = pDAO.getProductoByNombre(selectComida);
-        combo.setId_bebida(prod.getId());
-        combo.setCantBebida(Integer.parseInt(cantComida));
+        System.out.println("ID comida: "+selectComida);
+        System.out.println("ID comestible: "+pDAO.getProductoByNombre(selectComida).getId());
+        combo.setId_comida(pDAO.getProductoByNombre(selectComida).getId());
+        combo.setCantComida(Integer.parseInt(cantComida));
         combo.setDescripcion(descripcion);
         combo.setPrecio(Integer.parseInt(precio));
         combo.setVisible("si");

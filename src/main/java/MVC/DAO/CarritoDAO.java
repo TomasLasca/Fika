@@ -20,7 +20,7 @@ public class CarritoDAO {
     public List<Carrito> getAllCarrito() {
 
         //colocar los datos de su  servidor de Mysql (root) y contrasea (adminadmin)
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
 
         try (Connection con = sql2o.open()) {
            
@@ -38,7 +38,7 @@ public class CarritoDAO {
     }
     
         public List<Carrito> getCarritoByUserId(int id) {
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
      
         try (Connection con = sql2o.open()) {
            

@@ -21,11 +21,91 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+
+import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferencePaymentMethodRequest;
+import com.mercadopago.client.preference.PreferencePaymentMethodsRequest;
+import com.mercadopago.client.preference.PreferencePaymentTypeRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.resources.common.Address;
+import com.mercadopago.resources.common.Identification;
+import com.mercadopago.resources.common.Phone;
+import com.mercadopago.resources.preference.Preference;
+import com.mercadopago.resources.preference.PreferencePaymentMethod;
+import java.math.BigDecimal;
+
+
 /**
  *
  * @author Tomas
  */
 public class CarritoControlador {
+    
+    public static Route crearPreferencia = (Request req, Response res) -> {
+        MercadoPagoConfig.setAccessToken("TEST-4546216443926115-110409-61a3ac5fe6da930fa33b3357cd5b6a76-216697042");
+        
+       
+        int total = Integer.parseInt(req.queryParams("total"));
+        List<PreferenceItemRequest> items = new ArrayList<>();
+        
+        try {
+            
+            PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
+        .id("item-ID-1234")
+        .title("Compra")
+        .currencyId("ARG")
+        .pictureUrl("https://www.mercadopago.com/org-img/MP3/home/logomp3.gif")
+        .description("Fika avenida")
+        .categoryId("Coffe")
+        .quantity(1)
+        .unitPrice(new BigDecimal(total))
+        .build();
+            
+            //AGREGA ITEM, SOLO 1 
+            items.add(itemRequest);
+            
+
+            PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                    .success("http://localhost:4567/")
+                    .pending("http://localhost:4567/")
+                    .failure("http://localhost:4567/")
+                    .build();
+
+            List<PreferencePaymentMethodRequest> excludedPaymentMethods = new ArrayList<>();
+            
+            List<PreferencePaymentTypeRequest> excludedPaymentTypes = new ArrayList<>();
+            excludedPaymentTypes.add(PreferencePaymentTypeRequest.builder().id("credit_card").build());
+            excludedPaymentTypes.add(PreferencePaymentTypeRequest.builder().id("debit_card").build());
+            excludedPaymentTypes.add(PreferencePaymentTypeRequest.builder().id("cash").build());
+           
+            PreferencePaymentMethodsRequest paymentMethods = PreferencePaymentMethodsRequest.builder()
+                    .excludedPaymentMethods(excludedPaymentMethods)
+                    .excludedPaymentTypes(excludedPaymentTypes)
+                    .installments(12)
+                    .build();
+
+            PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                    .items(items)
+                    .backUrls(backUrls)
+                    .externalReference("Fika")
+                    .build();
+
+            PreferenceClient client = new PreferenceClient();
+            Preference preference = client.create(preferenceRequest);
+            return preference.getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error al crear las preferencias";
+        }
+    };
+
+    
+    
+    
+    
     public static Route detalle = (Request req, Response res) -> {
         /*String json_item = req.cookie("item");
         ProductoDAO bd = new ProductoDAO();
@@ -103,5 +183,7 @@ public class CarritoControlador {
         return json;
 
     };
+    
+    
     
 }

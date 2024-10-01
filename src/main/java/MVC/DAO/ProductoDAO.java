@@ -5,8 +5,11 @@
 package MVC.DAO;
 
 import MVC.Models.Producto;
+import Main.fika.Fika;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -16,13 +19,15 @@ import org.sql2o.Sql2o;
  */
 public class ProductoDAO {
     
+    private static Logger logger = LoggerFactory.getLogger(ProductoDAO.class);
+    
     private List<Producto> productos;
 
 
     public List<Producto> obtenerProductos() {
 
         //colocar los datos de su  servidor de Mysql (root) y contrasea (adminadmin)
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
 
         try (Connection con = sql2o.open()) {
            
@@ -31,16 +36,18 @@ public class ProductoDAO {
             productos = con
                 .createQuery(sql)
                 .executeAndFetch(Producto.class);
+            logger.info("Se cargaron todos los productos");
         }
         catch(Exception e) {
-            System.out.println(e);}
+            logger.error("No se pudieron cargar todos los productos");
+        }
         
 
         return productos;
     }
     
     public List<Producto> obtenerProductoId(int id) {
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
      
         try (Connection con = sql2o.open()) {
            
@@ -59,7 +66,7 @@ public class ProductoDAO {
     
     
     public List<Producto> getProductosComestibles() {
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
      
         try (Connection con = sql2o.open()) {
            
@@ -97,7 +104,7 @@ public class ProductoDAO {
     }
     
      public List<Producto> getProductosBebibles() {
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
      
         try (Connection con = sql2o.open()) {
            
@@ -113,12 +120,17 @@ public class ProductoDAO {
         return productos;
     }
      
-     public Producto getProductoByNombre(String nombre){
-            Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+    /**
+     *
+     * @param nombre
+     * @return
+     */
+    public Producto getProductoByNombre(String nombre){
+            Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
             
         try (Connection con = sql2o.open()) {
            
-            String sql = "SELECT * FROM productos WHERE nombre=':nombre'";
+            String sql = "SELECT * FROM productos WHERE nombre like :nombre";
 
            productos = con.createQuery(sql)
                      .addParameter("nombre", nombre)

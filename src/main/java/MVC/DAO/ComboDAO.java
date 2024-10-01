@@ -22,7 +22,7 @@ public class ComboDAO {
     public List<Combo> getAllCombos() {
  
         //colocar los datos de su  servidor de Mysql (root) y contrasea (adminadmin)
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
 
         try (Connection con = sql2o.open()) {
            
@@ -42,11 +42,11 @@ public class ComboDAO {
    
     
     public void cargarCombo(Combo combo){
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
           
         try (Connection con = sql2o.open()) {
            
-            String sql = "INSERT INTO combos VALUES(:id_combo, :id_comestible, :cantComida, :id_bebida , :cantBebida, :precio, :descripcion, :visible)";
+            String sql = "INSERT INTO combos VALUES(:id_combo, :id_comida, :cantComida, :id_bebida , :cantBebida, :precio, :descripcion, :visible)";
             con.createQuery(sql)
                 .bind(combo)
                 .executeUpdate();

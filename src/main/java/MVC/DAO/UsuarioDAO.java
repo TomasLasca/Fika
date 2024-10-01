@@ -4,7 +4,8 @@
  */
 package MVC.DAO;
 
-import MVC.Models.Mesa;
+import MVC.Models.Carrito;
+import MVC.Models.Usuario;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -13,27 +14,30 @@ import org.sql2o.Sql2o;
  *
  * @author Tomas
  */
-public class MesaDAO {
+public class UsuarioDAO {
     
-     private List<Mesa> mesas;
+    private List<Usuario> usuarios;
     
-    public List<Mesa> obtenerMesas() {
+    public List<Usuario> getAllUsuarios() {
 
         //colocar los datos de su  servidor de Mysql (root) y contrasea (adminadmin)
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
 
         try (Connection con = sql2o.open()) {
-            
-            System.out.println(sql2o);
-            String sql = "SELECT * FROM mesa";
+           
+            String sql = "SELECT * FROM Usuario";
 
-            mesas = con
+            usuarios = con
                 .createQuery(sql)
-                .executeAndFetch(Mesa.class);
+                .executeAndFetch(Usuario.class);
         }
         catch(Exception e) {
             System.out.println(e);}
-        return mesas;
+        
+
+        return usuarios;
     }
+    
+    
     
 }

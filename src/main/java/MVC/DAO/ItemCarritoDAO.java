@@ -21,7 +21,7 @@ public class ItemCarritoDAO {
     private List<ItemCarrito> items;
     
     public List<ItemCarrito> obtenerItemsByCarritoId(int id) {
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "agus", "a");
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
      
         try (Connection con = sql2o.open()) {
            
