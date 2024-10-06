@@ -19,11 +19,11 @@ import org.sql2o.Sql2o;
 public class PedidoDAO {
      private List<Pedido> pedidos;
      
-     Sql2o bd = getSql2o();
+     Sql2oDAO bd;  
 
     public void cargarPedido(Pedido pedido){
         pedido.setId_estado(1);
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
            
             String sql = "INSERT INTO pedidos VALUES(:nro_pedido, :id_estado, :id_usuario , :fecha_pedido, :hora_pedido, :id_metodo)";
             con.createQuery(sql)
@@ -36,7 +36,7 @@ public class PedidoDAO {
     
     public List <Pedido> verPedidos(){
         
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
            
             String sql = "SELECT * FROM pedidos";
             pedidos = con
@@ -50,7 +50,7 @@ public class PedidoDAO {
     
     public List<Pedido> ultimoIndex() {
         
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
            
             String sql = "SELECT * FROM pedidos WHERE nro_pedido = (SELECT MAX(nro_pedido) FROM pedidos)";
             pedidos = con
@@ -64,7 +64,7 @@ public class PedidoDAO {
     
     public boolean eliminarPedido(int id) {
     boolean band = false;
-        try (Connection con = bd.open()) {      
+        try (Connection con = bd.getSql2o().open()) {      
 
            String sqlDetalle = "DELETE FROM detallepedido WHERE nro_pedido = :id";
         con.createQuery(sqlDetalle)
@@ -92,7 +92,7 @@ public class PedidoDAO {
     
    public Pedido getEstadoByNroPedido(int nro) {
     Pedido estado = null;
-    try (Connection con = bd.open()) {
+    try (Connection con = bd.getSql2o().open()) {
         String sql = "SELECT * FROM pedidos WHERE nro_pedido = :nro";
         estado = con.createQuery(sql)
             .addParameter("nro", nro)
@@ -106,7 +106,7 @@ public class PedidoDAO {
     
     public boolean CambioEstadoPedido(int nuevoEstado,int id) {
         boolean band=false;
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
                 String sql = "UPDATE pedidos SET id_estado = :nuevoEstado WHERE nro_pedido = :id";
                 con.createQuery(sql).addParameter("nuevoEstado",nuevoEstado).addParameter("id",id)
                     .executeUpdate();

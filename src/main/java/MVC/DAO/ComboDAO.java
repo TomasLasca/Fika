@@ -6,6 +6,8 @@ package MVC.DAO;
 
 import MVC.Models.Combo;
 import MVC.Models.Pedido;
+import Utils.Sql2oDAO;
+
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -14,17 +16,15 @@ import org.sql2o.Sql2o;
  *
  * @author Tomas
  */
+
 public class ComboDAO {
      
     List<Combo> combos;
+    Sql2oDAO sql2o;   
     
-    
-    public List<Combo> getAllCombos() {
- 
-        //colocar los datos de su  servidor de Mysql (root) y contrasea (adminadmin)
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
+    public List<Combo> getAllCombos() {     
 
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.getSql2o().open()) {
            
             String sql = "SELECT * FROM combos";
 
@@ -42,9 +42,8 @@ public class ComboDAO {
    
     
     public void cargarCombo(Combo combo){
-        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
-          
-        try (Connection con = sql2o.open()) {
+    
+        try (Connection con = sql2o.getSql2o().open()) {
            
             String sql = "INSERT INTO combos VALUES(:id_combo, :id_comida, :cantComida, :id_bebida , :cantBebida, :precio, :descripcion, :visible)";
             con.createQuery(sql)
