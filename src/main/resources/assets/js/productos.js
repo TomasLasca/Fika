@@ -60,7 +60,7 @@ function finalizarPedido(user_id){
     
     const pago_id = $('#pago').val();
     const fecha = $('#fecha').val();
-    const hora = $('#hora').val();
+    const hora = $('#hora').val();    
     
     $.ajax({
         type: 'POST',

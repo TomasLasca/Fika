@@ -1,88 +1,113 @@
 <section id="verPedidos" class="verPedidos">
-<script src="js/pedido.js"></script>
-<div class="mt-4 p-3 container-md card">
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Número pedido</label>
-                <input type="text" class="form-control" placeholder="Número de pedido" aria-label="id pedido">
+    <script src="js/pedido.js"></script>
+    
+    <!-- Filtro de búsqueda -->
+    <div class="mt-4 p-3 container-md card">
+        <div class="row">
+            <!-- Campo para Número de Pedido -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="numeroPedido">Número de Pedido</label>
+                    <input type="text" id="numeroPedido" class="form-control" placeholder="Número de Pedido" aria-label="Número Pedido">
+                </div>
             </div>
-        </div>
-        <div class="col alig-self-center">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Estado pedido</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>Pendiente</option>
-                    <option>Entregado</option>
-                    <option>Rechazado</option>
-                    <option>Todos</option>
-                </select>
+
+            <!-- Campo para Estado de Pedido -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="estadoPedido">Estado Pedido</label>
+                    <select class="form-control" id="estadoPedido">
+                        <option value="todos">Todos</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="entregado">Entregado</option>
+                        <option value="rechazado">Rechazado</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col align-self-end">
-            <button type="button" class="w-100 btn btn-light-coffe ">Buscar</button>
+
+            <!-- Botón de búsqueda -->
+            <div class="col-md-4 align-self-end">
+                <button type="button" class="w-100 btn btn-light-coffe" onclick="buscarPedidos()">Buscar</button>
+            </div>
         </div>
     </div>
-</div>
-<div class="mt-4 container-md card">
-    <table class="mt-3 table">
-        <thead>
-            <tr>
-                <th scope="col">#Pedido</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Horario</th>
-                <th scope="col">Estado</th>
-                <th class="text-center" scope="col">Acciones</th>
-                <th class="text-center" scope="col">Detalle</th>
-            </tr>
-        </thead>
-        <tbody>
-        #if($pedidos.size() == 0)
-        <tr>
-            <td class="text-center" colspan="6">
-                Sin resultados
-            </td>
-        </tr>
-        #end
-        #foreach($pedido in $pedidos)
-            <tr>
-                <th scope="row" id="idPedido">$pedido.getNro_pedido()</th>
-                <td>$pedido.getId_usuario()</td>
-                <td>$pedido.getFecha_pedido()</td>
-                <td>$pedido.getHora_pedido() hs</td>
-                <td> Pendiente </td>
-                <td class="text-center"> 
-                    <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                        <button type="button" class="btn btn-outline-dark" title="Estado Anterior" id="btnEstadoAnterior" onclick='accionPedido("volver",$pedido.getNro_pedido())'><span class="material-symbols-outlined">chevron_left</span></button>
-                        <button type="button" class="btn btn-outline-dark" title="Eliminar Pedido" id="btnEliminarPedido" onclick='accionPedido("eliminar",$pedido.getNro_pedido())'><span class="material-symbols-outlined">scan_delete</span></button>
-                        <button type="button" class="btn btn-outline-dark" title="Estado Siguiente" id="btnEstadoSiguiente" onclick='accionPedido("siguiente",$pedido.getNro_pedido())'><span class="material-symbols-outlined">chevron_right</span></button> 
-                    </div>
-                </td>
-                <td class="text-center">
-                    <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">
-                        info
-                    </span>
-                </td>
-            </tr>
-        #end
-        </tbody>
-    </table>
-</div>
-<script>
-    function accionPedido(accion,pedido_id) {
-        // Este valor depende del login //
-        console.log("Acción: " + accion + ", Pedido ID: " + pedido_id);
-        $.ajax({
-                type: 'POST',
-                url: 'pedidos/action?pedido_id='+pedido_id+"&accion="+accion,
-                success: (result, status) => {
-                    console.log("Sali");
-                },
-                error: (xhr, status, err) => {
 
+    <!-- Tabla de Pedidos -->
+    <div class="mt-4 container-md card">
+        <table class="mt-3 table">
+            <thead>
+                <tr>
+                    <th scope="col">#Pedido</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Horario</th>
+                    <th scope="col">Estado</th>
+                    <th class="text-center" scope="col">Acciones</th>
+                    <th class="text-center" scope="col">Detalle</th>
+                </tr>
+            </thead>
+            <tbody id="tablaPedidos">
+                <!-- Aquí se mostrará la lista de pedidos filtrados -->
+                #if($pedidos.size() == 0)
+                <tr>
+                    <td class="text-center" colspan="7">Sin resultados</td>
+                </tr>
+                #end
+
+                #foreach($pedido in $pedidos)
+                <tr>
+                    <th scope="row" id="idPedido">$pedido.getNro_pedido()</th>
+                    <td>$pedido.getId_usuario()</td>
+                    <td>$pedido.getFecha_pedido()</td>
+                    <td>$pedido.getHora_pedido() hs</td>
+                    <td>$pedido.getEstado()</td>
+                    <td class="text-center"> 
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                            <button type="button" class="btn btn-outline-dark" title="Estado Anterior" onclick='accionPedido("volver", $pedido.getNro_pedido())'>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-dark" title="Eliminar Pedido" onclick='accionPedido("eliminar", $pedido.getNro_pedido())'>
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-dark" title="Estado Siguiente" onclick='accionPedido("siguiente", $pedido.getNro_pedido())'>
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button> 
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">info</span>
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Función para ejecutar la búsqueda de pedidos
+        function buscarPedidos() {
+            const numeroPedido = document.getElementById('numeroPedido').value;
+            const estadoPedido = document.getElementById('estadoPedido').value;
+
+            // Redirigir a la página con los parámetros de búsqueda
+            const url = `/admin/pedidos?numeroPedido=${numeroPedido}&estadoPedido=${estadoPedido}`;
+            window.location.href = url;
+        }
+
+        // Función para manejar acciones de los pedidos
+        function accionPedido(accion, pedido_id) {
+            console.log("Acción: " + accion + ", Pedido ID: " + pedido_id);
+            $.ajax({
+                type: 'POST',
+                url: 'pedidos/action?pedido_id=' + pedido_id + '&accion=' + accion,
+                success: function(result) {
+                    console.log("Acción realizada: " + result);
+                    // Actualiza la tabla o notifica al usuario según sea necesario
+                },
+                error: function(xhr, status, err) {
+                    console.error("Error: ", err);
                 }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 </section>

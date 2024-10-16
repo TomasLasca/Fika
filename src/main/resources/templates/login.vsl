@@ -23,7 +23,7 @@
         <button class="w-100 btn btn-pink "> Registro </button>
     </div>
     <div class="col-md-4">
-        <button type="submit" class="w-100 btn btn-light-coffe" onclick='logearse()'> Login </button>
+        <button type="submit" class="w-100 btn btn-light-coffe" onclick="window.location.href='/admin/pedidos'" > Login </button>
     </div>
 </div>
     </div>

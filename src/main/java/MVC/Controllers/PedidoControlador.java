@@ -40,11 +40,11 @@ public class PedidoControlador {
         String hora = request.queryParams("hora");
         
         // Simula pago si el pago es aprobado el estado es pendiente, en caso contrario seria rechazado
-        int estado_id = 5; // Pendiente
+        String estado_id = "pendiente"; // Pendiente
         
         Pedido p = new Pedido();
         p.setId_usuario(user_id);
-        p.setId_estado(estado_id);
+        p.setEstado(estado_id);
         p.setId_metodo(pago_id);
         p.setHora_pedido(hora);
         p.setFecha_pedido(fecha);
@@ -89,12 +89,12 @@ public class PedidoControlador {
         public static Route action = (Request request, Response response) -> {
             PedidoDAO pedidoDAO = new PedidoDAO(); 
             Pedido pedido = new Pedido();
-            int nuevoEstado;
+            String nuevoEstado;
             boolean band = false;
             boolean res = false;
             int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
             String accion = request.queryParams("accion");
-            if(accion.equals("eliminar")){
+            /*if(accion.equals("eliminar")){
                     System.out.println("eliminando pedido");
                     pedidoDAO.CambioEstadoPedido(2,id_pedido);
                     band=true;
@@ -103,7 +103,7 @@ public class PedidoControlador {
                 nuevoEstado = pedido.getId_estado();
                 System.out.println("estado a cambiar: " + String.valueOf(nuevoEstado));
                 if(accion.equals("siguiente")){
-                    if(nuevoEstado != 5){
+                    if(nuevoEstado != "pendiente"){
                         if(nuevoEstado+1 == 2)
                             nuevoEstado++;
                         res=pedidoDAO.CambioEstadoPedido(nuevoEstado+1,id_pedido);
@@ -119,7 +119,7 @@ public class PedidoControlador {
                         band= true;
                     }
                 }
-            }
+            }*/
             
         
         return 1;     

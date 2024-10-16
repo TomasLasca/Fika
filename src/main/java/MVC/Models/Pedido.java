@@ -14,6 +14,6 @@ public class Pedido {
     private int nro_pedido;
     private String fecha_pedido;
     private String hora_pedido;
-    private int id_estado;
+    private String estado;
     private int id_metodo;
 }

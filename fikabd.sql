@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2023 a las 19:02:15
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.12
+-- Tiempo de generación: 17-10-2024 a las 01:16:09
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `carrito` (
   `id_carrito` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `carrito`
@@ -54,7 +54,7 @@ CREATE TABLE `combos` (
   `precio` int(11) NOT NULL,
   `descripcion` varchar(60) NOT NULL,
   `visible` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `combos`
@@ -64,7 +64,12 @@ INSERT INTO `combos` (`id_combo`, `id_comida`, `cantComida`, `id_bebida`, `cantB
 (0, 0, 0, 2, 2, 69, 'combo', 'si'),
 (0, 2, 1, 2, 2, 234, 'combox', 'si'),
 (0, 2, 2, 2, 1, 234, 'asd', 'si'),
-(0, 2, 11, 2, 22, 34, 'asde', 'si');
+(0, 2, 11, 2, 22, 34, 'asde', 'si'),
+(0, 5, 2, 4, 3, 4500, 'Un combo excelente para el calor', 'si'),
+(0, 6, 3, 1, 1, 3000, 'usa', 'si'),
+(0, 2, 3, 1, 2, 5000, '¿hola]?', 'si'),
+(0, 2, 23, 1, 1, 293, '1111111111111111', 'si'),
+(0, 2, 23, 1, 2, 293, '1111111111111111', 'si');
 
 -- --------------------------------------------------------
 
@@ -76,7 +81,7 @@ CREATE TABLE `detallepedido` (
   `nro_pedido` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad_producto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `detallepedido`
@@ -99,7 +104,7 @@ INSERT INTO `detallepedido` (`nro_pedido`, `id_producto`, `cantidad_producto`) V
 CREATE TABLE `estados_pedido` (
   `id_estado` int(11) DEFAULT NULL,
   `descripcion` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estados_pedido`
@@ -122,7 +127,7 @@ CREATE TABLE `itemcarrito` (
   `id_carrito` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -133,7 +138,7 @@ CREATE TABLE `itemcarrito` (
 CREATE TABLE `medios_pagos` (
   `id_metodo` int(11) DEFAULT NULL,
   `descripcion` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `medios_pagos`
@@ -154,7 +159,7 @@ CREATE TABLE `mesa` (
   `nro_mesa` int(11) NOT NULL,
   `cant_sillas` int(11) DEFAULT NULL,
   `fecha_disponible` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `mesa`
@@ -174,22 +179,47 @@ INSERT INTO `mesa` (`nro_mesa`, `cant_sillas`, `fecha_disponible`) VALUES
 
 CREATE TABLE `pedidos` (
   `nro_pedido` int(11) NOT NULL,
-  `id_estado` int(11) NOT NULL,
+  `estado` varchar(20) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha_pedido` varchar(20) DEFAULT NULL,
   `hora_pedido` varchar(10) DEFAULT NULL,
   `id_metodo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`nro_pedido`, `id_estado`, `id_usuario`, `fecha_pedido`, `hora_pedido`, `id_metodo`) VALUES
-(13, 5, 0, '', '8:00', 1),
-(14, 5, 0, '', '8:00', 1),
-(15, 1, 0, '', '8:00', 1),
-(16, 5, 0, '', '8:00', 1);
+INSERT INTO `pedidos` (`nro_pedido`, `estado`, `id_usuario`, `fecha_pedido`, `hora_pedido`, `id_metodo`) VALUES
+(13, 'pendiente', 0, '2024-10-01', '8:00', 1),
+(14, 'en preparacion', 0, '2024-10-01', '8:00', 1),
+(15, 'rechazado', 0, '2024-10-01', '8:00', 1),
+(16, 'pendiente', 0, '2024-10-01', '8:00', 1),
+(1001, 'pendiente', 0, '2024-10-01', '12:30:00', 1),
+(1002, 'entregado', 0, '2024-10-02', '14:15:00', 2),
+(1003, 'rechazado', 0, '2024-09-29', '09:45:00', 3),
+(1004, 'en preparacion', 0, '2024-09-28', '10:20:00', 1),
+(1005, 'entregado', 0, '2024-10-03', '11:10:00', 2),
+(1006, 'rechazado', 0, '2024-09-27', '15:00:00', 3),
+(1007, 'pendiente', 0, '2024-10-01', '13:50:00', 1),
+(1008, 'entregado', 0, '2024-09-30', '16:20:00', 2),
+(1009, 'rechazado', 0, '2024-09-29', '08:30:00', 3),
+(1010, 'pendiente', 0, '2024-09-28', '17:00:00', 1),
+(1011, 'entregado', 0, '2024-10-02', '14:45:00', 2),
+(1012, 'rechazado', 0, '2024-09-27', '10:15:00', 3),
+(1013, 'pendiente', 0, '2024-10-03', '09:50:00', 1),
+(1014, 'entregado', 0, '2024-09-30', '12:40:00', 2),
+(1015, 'rechazado', 0, '2024-09-29', '14:10:00', 3),
+(1016, 'pendiente', 0, '2024-10-01', '11:35:00', 1),
+(1017, 'entregado', 0, '2024-10-02', '15:25:00', 2),
+(1018, 'rechazado', 0, '2024-09-28', '16:55:00', 3),
+(1019, 'pendiente', 0, '2024-09-27', '13:15:00', 1),
+(1020, 'entregado', 0, '2024-09-29', '09:00:00', 2),
+(1021, 'rechazado', 0, '2024-10-01', '17:30:00', 3),
+(1022, 'pendiente', 0, '2024-10-03', '10:25:00', 1),
+(1023, 'entregado', 0, '2024-09-28', '12:50:00', 2),
+(1024, 'rechazado', 0, '2024-09-27', '14:05:00', 3),
+(1025, 'pendiente', 0, '2024-10-02', '08:20:00', 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +235,7 @@ CREATE TABLE `productos` (
   `PRECIO_VTA` int(11) DEFAULT NULL,
   `STOCK` int(11) DEFAULT NULL,
   `FOTO` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
@@ -231,7 +261,7 @@ CREATE TABLE `reserva` (
   `nro_reserva` int(11) NOT NULL,
   `fecha_reserva` date NOT NULL,
   `estado` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reserva`
@@ -252,7 +282,7 @@ CREATE TABLE `usuarios` (
   `email` varchar(20) NOT NULL,
   `pass` varchar(20) NOT NULL,
   `tipo_usuario` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -311,7 +341,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `nro_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `nro_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1026;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`

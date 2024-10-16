@@ -22,7 +22,7 @@ public class PedidoDAO {
      Sql2oDAO bd;  
 
     public void cargarPedido(Pedido pedido){
-        pedido.setId_estado(1);
+        pedido.setEstado("en preparacion");
         try (Connection con = bd.getSql2o().open()) {
            
             String sql = "INSERT INTO pedidos VALUES(:nro_pedido, :id_estado, :id_usuario , :fecha_pedido, :hora_pedido, :id_metodo)";
