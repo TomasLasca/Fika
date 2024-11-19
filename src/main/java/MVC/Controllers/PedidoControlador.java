@@ -89,37 +89,81 @@ public class PedidoControlador {
         public static Route action = (Request request, Response response) -> {
             PedidoDAO pedidoDAO = new PedidoDAO(); 
             Pedido pedido = new Pedido();
-            String nuevoEstado;
+            String estadoActual = null;
             boolean band = false;
             boolean res = false;
             int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
             String accion = request.queryParams("accion");
-            /*if(accion.equals("eliminar")){
+
+            
+
+            if(accion.equals("eliminar")){
                     System.out.println("eliminando pedido");
-                    pedidoDAO.CambioEstadoPedido(2,id_pedido);
+                    pedidoDAO.CambioEstadoPedido("rechazado",id_pedido);
                     band=true;
             }else{
-                pedido = pedidoDAO.getEstadoByNroPedido(id_pedido);
-                nuevoEstado = pedido.getId_estado();
-                System.out.println("estado a cambiar: " + String.valueOf(nuevoEstado));
+                pedido = pedidoDAO.getPedido(id_pedido);
+                estadoActual = pedido.getEstado();
+                System.out.println("estado a cambiar: " + String.valueOf(estadoActual));
                 if(accion.equals("siguiente")){
-                    if(nuevoEstado != "pendiente"){
-                        if(nuevoEstado+1 == 2)
-                            nuevoEstado++;
-                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado+1,id_pedido);
-                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
-                        band= true;
+
+                    switch(estadoActual){
+                        case "prendiente":{
+                            pedidoDAO.CambioEstadoPedido("en preparacion",id_pedido);
+                            System.out.println("se cambio a: en preparacion");
+                            break;
+                        } 
+                        case "en preparacion":{
+                            pedidoDAO.CambioEstadoPedido("preparado",id_pedido);
+                            System.out.println("se cambio a: preparado");
+                            break;
+                        } 
+                        case "preparado":{
+                            pedidoDAO.CambioEstadoPedido("entregado",id_pedido);
+                            System.out.println("se cambio a: entregado");
+                            break;
+                        } 
+                        default:{
+                            pedidoDAO.CambioEstadoPedido("desconocido",id_pedido);
+                            System.out.println("se cambio a: desconocido");
+                            break;
+                        }
                     }
+                
+                    band= true;
+
                 }else{
-                    if(nuevoEstado != 1){
-                        if(nuevoEstado==3)
-                            nuevoEstado--;
-                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado-1,id_pedido);
-                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
-                        band= true;
+                    switch(estadoActual){
+                        case "prendiente":{
+                            pedidoDAO.CambioEstadoPedido("rechazado",id_pedido);
+                            System.out.println("se cambio a: rechazado");
+                            break;
+                        } 
+                        case "en preparacion":{
+                            pedidoDAO.CambioEstadoPedido("pendiente",id_pedido);
+                            System.out.println("se cambio a: pendiente");
+                            break;
+                        } 
+                        case "preparado":{
+                            pedidoDAO.CambioEstadoPedido("en preparacion",id_pedido);
+                            System.out.println("se cambio a: en preparacion");
+                            break;
+                        } 
+                        case "entregado":{
+                            pedidoDAO.CambioEstadoPedido("preparado",id_pedido);
+                            System.out.println("se cambio a: preparado");
+                            break;
+                        } 
+                        default:{
+                            pedidoDAO.CambioEstadoPedido("desconocido",id_pedido);
+                            System.out.println("se cambio a: desconocido");
+                            break;
+                        }
                     }
+                
+                    band= true;
                 }
-            }*/
+            }
             
         
         return 1;     

@@ -90,7 +90,7 @@ public class PedidoDAO {
     return band;
     }
     
-   public Pedido getEstadoByNroPedido(int nro) {
+   public Pedido getPedido(int nro) {
     Pedido estado = null;
     try (Connection con = bd.getSql2o().open()) {
         String sql = "SELECT * FROM pedidos WHERE nro_pedido = :nro";
@@ -104,10 +104,10 @@ public class PedidoDAO {
     return estado;
     }
     
-    public boolean CambioEstadoPedido(int nuevoEstado,int id) {
+    public boolean CambioEstadoPedido(String nuevoEstado,int id) {
         boolean band=false;
         try (Connection con = bd.getSql2o().open()) {
-                String sql = "UPDATE pedidos SET id_estado = :nuevoEstado WHERE nro_pedido = :id";
+                String sql = "UPDATE pedidos SET estado = :nuevoEstado WHERE nro_pedido = :id";
                 con.createQuery(sql).addParameter("nuevoEstado",nuevoEstado).addParameter("id",id)
                     .executeUpdate();
                 band=true;
