@@ -108,7 +108,7 @@ public class PedidoControlador {
                 if(accion.equals("siguiente")){
 
                     switch(estadoActual){
-                        case "prendiente":{
+                        case "pendiente":{
                             pedidoDAO.CambioEstadoPedido("en preparacion",id_pedido);
                             System.out.println("se cambio a: en preparacion");
                             break;
