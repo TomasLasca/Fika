@@ -61,18 +61,13 @@
                     <td>$pedido.getFecha_pedido()</td>
                     <td>$pedido.getHora_pedido() hs</td>
                     <td>$pedido.getEstado()</td>
-                    <td class="text-center"> 
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                            <button type="button" class="btn btn-outline-dark" title="Estado Anterior" onclick='accionPedido("volver", $pedido.getNro_pedido())'>
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-dark" title="Eliminar Pedido" onclick='accionPedido("eliminar", $pedido.getNro_pedido())'>
-                                <span class="material-symbols-outlined">delete</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-dark" title="Estado Siguiente" onclick='accionPedido("siguiente", $pedido.getNro_pedido())'>
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button> 
-                        </div>
+                    <td class="text-center">
+                        <!-- Columna con el dropdown (select) -->
+                        <select class="form-select form-select-sm" onchange='cambiarEstadoPedido(this.value, $pedido.getNro_pedido())'>
+                            #foreach($estado in $estados_pedidos)
+                               <option value="$estado">$estado</option>
+                            #end
+                        </select>
                     </td>
                     <td class="text-center">
                         <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">info</span>
