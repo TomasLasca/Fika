@@ -7,11 +7,13 @@ package MVC.Controllers;
 import MVC.DAO.CarritoDAO;
 import MVC.DAO.DetallePedidoDAO;
 import MVC.DAO.ItemCarritoDAO;
+import MVC.DAO.estado_pedidosDAO;
 import MVC.Models.Pedido;
 import MVC.DAO.PedidoDAO;
 import MVC.Models.Carrito;
 import MVC.Models.Detalle;
 import MVC.Models.DetallePedido;
+import MVC.Models.estados_pedidos;
 import MVC.Models.ItemCarrito;
 import MVC.Models.Producto;
 import Velocity.VelocityTemplateEngine;
@@ -78,10 +80,12 @@ public class PedidoControlador {
         public static Route viewPedidos = (Request request, Response response) -> {
         HashMap model = new HashMap();
         PedidoDAO bd = new  PedidoDAO();
+        estado_pedidosDAO bde = new estado_pedidosDAO();
         List<Pedido> pedidos = bd.verPedidos();
         
         model.put("template", "templates/verPedidos.vsl");  // .vsl donde se va a mostrar 
         model.put("pedidos", pedidos);
+        model.put("bde", bde);
         return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout_backoffice.vsl"));
              
     };
@@ -89,82 +93,15 @@ public class PedidoControlador {
         public static Route action = (Request request, Response response) -> {
             PedidoDAO pedidoDAO = new PedidoDAO(); 
             Pedido pedido = new Pedido();
-            String estadoActual = null;
-            boolean band = false;
-            boolean res = false;
+            
             int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
-            String accion = request.queryParams("accion");
-
+            int estado = Integer.parseInt(request.queryParams("estado"));
             
-
-            if(accion.equals("eliminar")){
-                    System.out.println("eliminando pedido");
-                    pedidoDAO.CambioEstadoPedido("rechazado",id_pedido);
-                    band=true;
-            }else{
-                pedido = pedidoDAO.getPedido(id_pedido);
-                estadoActual = pedido.getEstado();
-                System.out.println("estado a cambiar: " + String.valueOf(estadoActual));
-                if(accion.equals("siguiente")){
-
-                    switch(estadoActual){
-                        case "pendiente":{
-                            pedidoDAO.CambioEstadoPedido("en preparacion",id_pedido);
-                            System.out.println("se cambio a: en preparacion");
-                            break;
-                        } 
-                        case "en preparacion":{
-                            pedidoDAO.CambioEstadoPedido("preparado",id_pedido);
-                            System.out.println("se cambio a: preparado");
-                            break;
-                        } 
-                        case "preparado":{
-                            pedidoDAO.CambioEstadoPedido("entregado",id_pedido);
-                            System.out.println("se cambio a: entregado");
-                            break;
-                        } 
-                        default:{
-                            pedidoDAO.CambioEstadoPedido("desconocido",id_pedido);
-                            System.out.println("se cambio a: desconocido");
-                            break;
-                        }
-                    }
-                
-                    band= true;
-
-                }else{
-                    switch(estadoActual){
-                        case "prendiente":{
-                            pedidoDAO.CambioEstadoPedido("rechazado",id_pedido);
-                            System.out.println("se cambio a: rechazado");
-                            break;
-                        } 
-                        case "en preparacion":{
-                            pedidoDAO.CambioEstadoPedido("pendiente",id_pedido);
-                            System.out.println("se cambio a: pendiente");
-                            break;
-                        } 
-                        case "preparado":{
-                            pedidoDAO.CambioEstadoPedido("en preparacion",id_pedido);
-                            System.out.println("se cambio a: en preparacion");
-                            break;
-                        } 
-                        case "entregado":{
-                            pedidoDAO.CambioEstadoPedido("preparado",id_pedido);
-                            System.out.println("se cambio a: preparado");
-                            break;
-                        } 
-                        default:{
-                            pedidoDAO.CambioEstadoPedido("desconocido",id_pedido);
-                            System.out.println("se cambio a: desconocido");
-                            break;
-                        }
-                    }
-                
-                    band= true;
-                }
+            try {
+                pedidoDAO.CambioEstadoPedido(estado,id_pedido);
+            } catch (Exception e) {
+                System.out.println("error al actualizar estado");
             }
-            
         
         return 1;     
         };

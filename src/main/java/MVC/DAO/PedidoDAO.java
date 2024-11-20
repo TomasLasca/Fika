@@ -104,7 +104,7 @@ public class PedidoDAO {
     return estado;
     }
     
-    public boolean CambioEstadoPedido(String nuevoEstado,int id) {
+    public boolean CambioEstadoPedido(int nuevoEstado,int id) {
         boolean band=false;
         try (Connection con = bd.getSql2o().open()) {
                 String sql = "UPDATE pedidos SET estado = :nuevoEstado WHERE nro_pedido = :id";

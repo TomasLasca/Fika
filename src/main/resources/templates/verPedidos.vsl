@@ -42,7 +42,7 @@
                     <th scope="col">Fecha</th>
                     <th scope="col">Horario</th>
                     <th scope="col">Estado</th>
-                    <th class="text-center" scope="col">Acciones</th>
+                    <th class="text-center" scope="col">Cambio de Estado</th>
                     <th class="text-center" scope="col">Detalle</th>
                 </tr>
             </thead>
@@ -63,9 +63,9 @@
                     <td>$pedido.getEstado()</td>
                     <td class="text-center">
                         <!-- Columna con el dropdown (select) -->
-                        <select class="form-select form-select-sm" onchange='cambiarEstadoPedido(this.value, $pedido.getNro_pedido())'>
-                            #foreach($estado in $estados_pedidos)
-                               <option value="$estado">$estado</option>
+                        <select class="form-select form-select-sm" onchange='accionPedido(this.value.getDescripcion(), $pedido.getNro_pedido())'>
+                            #foreach($estado in $bde.getEstadosPedidosExcepto($pedido.getEstado()))
+                               <option value="$estado">$estado.getDescripcion()</option>
                             #end
                         </select>
                     </td>
@@ -90,13 +90,13 @@
         }
 
         // Función para manejar acciones de los pedidos
-        function accionPedido(accion, pedido_id) {
-            console.log("Acción: " + accion + ", Pedido ID: " + pedido_id);
+        function accionPedido(estado, pedido_id) {
+            console.log("Acción: " + estado + ", Pedido ID: " + pedido_id);
             $.ajax({
                 type: 'POST',
-                url: 'pedidos/action?pedido_id=' + pedido_id + '&accion=' + accion,
+                url: 'pedidos/action?pedido_id=' + pedido_id + '&estado=' + estado,
                 success: function(result) {
-                    console.log("Acción realizada: " + result);
+                    console.log("estado actualizado: " + result);
                     // Actualiza la tabla o notifica al usuario según sea necesario
                 },
                 error: function(xhr, status, err) {
