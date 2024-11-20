@@ -97,7 +97,7 @@ public class PedidoControlador {
 
             
 
-            if(accion.equals("eliminar")){
+            /*if(accion.equals("eliminar")){
                     System.out.println("eliminando pedido");
                     pedidoDAO.CambioEstadoPedido("rechazado",id_pedido);
                     band=true;
@@ -163,7 +163,7 @@ public class PedidoControlador {
                 
                     band= true;
                 }
-            }
+            }*/
             
         
         return 1;     
