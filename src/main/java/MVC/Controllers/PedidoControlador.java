@@ -90,20 +90,27 @@ public class PedidoControlador {
              
     };
         
-        public static Route action = (Request request, Response response) -> {
-            PedidoDAO pedidoDAO = new PedidoDAO(); 
-            Pedido pedido = new Pedido();
-            
-            int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
-            int estado = Integer.parseInt(request.queryParams("estado"));
-            
-            try {
-                pedidoDAO.CambioEstadoPedido(estado,id_pedido);
-            } catch (Exception e) {
-                System.out.println("error al actualizar estado");
+    public static Route cambioEstado = (Request request, Response response) -> {
+        PedidoDAO pedidoDAO = new PedidoDAO();
+    
+        int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
+        String estado = request.queryParams("estado");
+    
+        try {
+            boolean resultado = pedidoDAO.CambioEstadoPedido(estado, id_pedido);
+            if (resultado) {
+                response.status(200);
+                return "Estado actualizado correctamente";
+            } else {
+                response.status(400);
+                return "Error al actualizar el estado";
             }
-        
-        return 1;     
-        };
+        } catch (Exception e) {
+            response.status(500);
+            System.out.println("Error al actualizar estado: " + e.getMessage());
+            return "Error interno del servidor";
+        }
+    };
+    
         
 }

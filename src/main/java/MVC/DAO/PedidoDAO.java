@@ -8,6 +8,7 @@ import MVC.Models.Pedido;
 import Utils.Sql2oDAO;
 import static Utils.Sql2oDAO.getSql2o;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -90,7 +91,7 @@ public class PedidoDAO {
     return band;
     }
     
-   public Pedido getPedido(int nro) {
+   public Pedido getEstadoByNroPedido(int nro) {
     Pedido estado = null;
     try (Connection con = bd.getSql2o().open()) {
         String sql = "SELECT * FROM pedidos WHERE nro_pedido = :nro";
@@ -102,15 +103,15 @@ public class PedidoDAO {
         return estado; // Error: sentencia 'return' inalcanzable
     }
     return estado;
-    }
-    
-    public boolean CambioEstadoPedido(int nuevoEstado,int id) {
+    }    
+    public boolean CambioEstadoPedido(String nuevoEstado,int id) {
         boolean band=false;
         try (Connection con = bd.getSql2o().open()) {
+                
                 String sql = "UPDATE pedidos SET estado = :nuevoEstado WHERE nro_pedido = :id";
                 con.createQuery(sql).addParameter("nuevoEstado",nuevoEstado).addParameter("id",id)
                     .executeUpdate();
-                band=true;
+                band=true;                
             
         }
         catch(Exception e) {

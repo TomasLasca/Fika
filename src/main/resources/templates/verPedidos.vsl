@@ -56,27 +56,83 @@
 
                 #foreach($pedido in $pedidos)
                 <tr>
-                    <th scope="row" id="idPedido">$pedido.getNro_pedido()</th>
-                    <td>$pedido.getId_usuario()</td>
-                    <td>$pedido.getFecha_pedido()</td>
-                    <td>$pedido.getHora_pedido() hs</td>
-                    <td>$pedido.getEstado()</td>
-                    <td class="text-center">
-                        <!-- Columna con el dropdown (select) -->
-                        <select class="form-select form-select-sm" onchange='accionPedido(this.value.getDescripcion(), $pedido.getNro_pedido())'>
+                <th scope="row" id="idPedido">$pedido.getNro_pedido()</th>
+                <td>$pedido.getId_usuario()</td>
+                <td>$pedido.getFecha_pedido()</td>
+                <td>$pedido.getHora_pedido() hs</td>
+                <td>$pedido.getEstado()</td>
+                <td class="text-center">
+                    <!-- Columna con el dropdown (select) -->
+                    <div class="d-flex align-items-center">
+                        <select 
+                            class="form-select form-select-sm me-2" 
+                            id="estadoDropdown-$pedido.getNro_pedido()" 
+                            onchange="habilitarBoton(this)">
                             #foreach($estado in $bde.getEstadosPedidosExcepto($pedido.getEstado()))
-                               <option value="$estado">$estado.getDescripcion()</option>
+                                <option value="$estado.getDescripcion()">$estado.getDescripcion()</option>
                             #end
                         </select>
-                    </td>
-                    <td class="text-center">
-                        <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">info</span>
-                    </td>
-                </tr>
+                        <button 
+                            class="btn btn-sm btn-primary" 
+                            onclick="confirmarCambio(this, $pedido.getNro_pedido())">
+                            Confirmar
+                        </button>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span class="cursor-pointer material-symbols-outlined" title="Ver pedido">info</span>
+                </td>
+            </tr>
                 #end
             </tbody>
         </table>
     </div>
+                        <script>
+                // Confirmar cambio de estado
+                function confirmarCambio(button, pedidoId) {
+                    // Obtener el valor seleccionado del dropdown
+                    const dropdown = document.getElementById(`estadoDropdown-${pedidoId}`);
+                    const nuevoEstado = dropdown.value;
+
+                    // Crear un objeto con los parámetros
+                    const params = new URLSearchParams({
+                        pedido_id: pedidoId,
+                        estado: nuevoEstado,
+                    });
+
+                    // Enviar solicitud al backend
+                    fetch('/admin/pedidos/cambioEstado?' + params.toString(), {
+                        method: 'GET',
+                        
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Éxito: Cambiar el botón a un ícono de check verde
+                                button.innerHTML = '<span class="material-symbols-outlined text-success">check_circle</span>';
+                                button.disabled = true; // Deshabilitar el botón                                
+                                console.log("Cambio confirmado para el pedido.");                               
+                            } else {
+                                throw new Error('Error al cambiar el estado del pedido.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("Hubo un problema al realizar el cambio de estado.");
+                        });
+                }
+
+                // Habilitar el botón de confirmar cuando cambia el dropdown
+                function habilitarBoton(selectElement) {
+                    const button = selectElement.nextElementSibling; // Encuentra el botón
+                    if (button) {
+                        button.innerHTML = "Confirmar"; // Restaurar texto del botón
+                        button.disabled = false; // Habilitar el botón
+                    }
+                }
+            </script>
+
+
+
 
     <script>
         // Función para ejecutar la búsqueda de pedidos

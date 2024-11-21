@@ -50,7 +50,7 @@ public class Fika {
         get("/reserva",MesaControlador.getMesas);
         get("/admin/pedidos",PedidoControlador.viewPedidos);
         get("/admin/combos",ComboControlador.viewCombos);
-        post("/admin/pedidos/action",PedidoControlador.action);
+        get("/admin/pedidos/cambioEstado",PedidoControlador.cambioEstado);
         post("/admin/combos/agregar",ComboControlador.agregarCombo);
         post("/insertarres",ReservaControlador.setReserva); 
     }
