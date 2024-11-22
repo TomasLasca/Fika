@@ -7,11 +7,13 @@ package MVC.Controllers;
 import MVC.DAO.CarritoDAO;
 import MVC.DAO.DetallePedidoDAO;
 import MVC.DAO.ItemCarritoDAO;
+import MVC.DAO.estado_pedidosDAO;
 import MVC.Models.Pedido;
 import MVC.DAO.PedidoDAO;
 import MVC.Models.Carrito;
 import MVC.Models.Detalle;
 import MVC.Models.DetallePedido;
+import MVC.Models.estados_pedidos;
 import MVC.Models.ItemCarrito;
 import MVC.Models.Producto;
 import Velocity.VelocityTemplateEngine;
@@ -78,51 +80,37 @@ public class PedidoControlador {
         public static Route viewPedidos = (Request request, Response response) -> {
         HashMap model = new HashMap();
         PedidoDAO bd = new  PedidoDAO();
+        estado_pedidosDAO bde = new estado_pedidosDAO();
         List<Pedido> pedidos = bd.verPedidos();
         
         model.put("template", "templates/verPedidos.vsl");  // .vsl donde se va a mostrar 
         model.put("pedidos", pedidos);
+        model.put("bde", bde);
         return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout_backoffice.vsl"));
              
     };
         
-        public static Route action = (Request request, Response response) -> {
-            PedidoDAO pedidoDAO = new PedidoDAO(); 
-            Pedido pedido = new Pedido();
-            String nuevoEstado;
-            boolean band = false;
-            boolean res = false;
-            int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
-            String accion = request.queryParams("accion");
-            /*if(accion.equals("eliminar")){
-                    System.out.println("eliminando pedido");
-                    pedidoDAO.CambioEstadoPedido(2,id_pedido);
-                    band=true;
-            }else{
-                pedido = pedidoDAO.getEstadoByNroPedido(id_pedido);
-                nuevoEstado = pedido.getId_estado();
-                System.out.println("estado a cambiar: " + String.valueOf(nuevoEstado));
-                if(accion.equals("siguiente")){
-                    if(nuevoEstado != "pendiente"){
-                        if(nuevoEstado+1 == 2)
-                            nuevoEstado++;
-                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado+1,id_pedido);
-                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
-                        band= true;
-                    }
-                }else{
-                    if(nuevoEstado != 1){
-                        if(nuevoEstado==3)
-                            nuevoEstado--;
-                        res=pedidoDAO.CambioEstadoPedido(nuevoEstado-1,id_pedido);
-                        System.out.println("se cambio a: " + String.valueOf(nuevoEstado+1));
-                        band= true;
-                    }
-                }
-            }*/
-            
-        
-        return 1;     
-        };
+    public static Route cambioEstado = (Request request, Response response) -> {
+        PedidoDAO pedidoDAO = new PedidoDAO();
+    
+        int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
+        String estado = request.queryParams("estado");
+    
+        try {
+            boolean resultado = pedidoDAO.CambioEstadoPedido(estado, id_pedido);
+            if (resultado) {
+                response.status(200);
+                return "Estado actualizado correctamente";
+            } else {
+                response.status(400);
+                return "Error al actualizar el estado";
+            }
+        } catch (Exception e) {
+            response.status(500);
+            System.out.println("Error al actualizar estado: " + e.getMessage());
+            return "Error interno del servidor";
+        }
+    };
+    
         
 }
