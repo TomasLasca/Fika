@@ -110,14 +110,22 @@
                                 // Éxito: Cambiar el botón a un ícono de check verde
                                 button.innerHTML = '<span class="material-symbols-outlined text-success">check_circle</span>';
                                 button.disabled = true; // Deshabilitar el botón                                
-                                console.log("Cambio confirmado para el pedido.");                               
+                                console.log("Cambio confirmado para el pedido.");     
+                                   // Refrescar la página
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500); // Refrescar después de 500ms (opcional)                          
                             } else {
                                 throw new Error('Error al cambiar el estado del pedido.');
                             }
                         })
                         .catch(error => {
-                            console.error("Error:", error);
-                            alert("Hubo un problema al realizar el cambio de estado.");
+                            console.error("Update ready");
+                               // Refrescar la página
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500); // Refrescar después de 500ms (opcional)
+                          
                         });
                 }
 

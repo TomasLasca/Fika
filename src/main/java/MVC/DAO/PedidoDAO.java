@@ -9,6 +9,7 @@ import Utils.Sql2oDAO;
 import static Utils.Sql2oDAO.getSql2o;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import Utils.Util;
 import org.sql2o.Connection;
@@ -107,15 +108,11 @@ public class PedidoDAO {
     }    
     public boolean CambioEstadoPedido(String nuevoEstado,int id) {
         boolean band=false;
-        try (Connection con = bd.getSql2o().open()) {
-                
+        try (Connection con = bd.getSql2o().open()) {                
                 Pedido pedido = getPedido(id);
-                pedido.setEstado(nuevoEstado);
-                try{
-                    Util.updateEntity(con, pedido, "pedidos", "nro_Pedido", pedido.getNro_pedido()); 
-                }catch(Exception e){
-                    e.getMessage();
-                }                
+                List<String> fieldsToUpdate = Arrays.asList("estado");
+                pedido.setEstado(nuevoEstado);                
+                Util.updateEntity(con, pedido, "pedidos", "nro_pedido", pedido.getNro_pedido(),fieldsToUpdate);                         
             
         }
         catch(Exception e) {
