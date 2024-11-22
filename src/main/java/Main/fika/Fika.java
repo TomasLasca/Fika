@@ -52,7 +52,10 @@ public class Fika {
         get("/admin/combos",ComboControlador.viewCombos);
         post("/admin/pedidos/action",PedidoControlador.action);
         post("/admin/combos/agregar",ComboControlador.agregarCombo);
-        post("/insertarres",ReservaControlador.setReserva); 
+        post("/insertarres",ReservaControlador.setReserva);
+        
+        //nuevo
+        get("/admin/vercombos",ComboControlador.verCombos);
     }
 }
 //http://localhost:4567/

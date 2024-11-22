@@ -78,4 +78,22 @@ public class ComboControlador {
         return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout_backoffice.vsl"));
              
     };
+
+    //Agregado
+
+    public static Route verCombos = (Request request, Response response) ->{
+        HashMap model = new HashMap();
+        ComboDAO bdCombos = new ComboDAO();
+        List<Combo> combos = bdCombos.getAllCombos();
+
+        model.put("template", "templates/combos.vsl");  // .vsl donde se va a mostrar 
+        model.put("combos", combos);
+        return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout_backoffice.vsl"));
+
+
+    };
+
+
+
+
 }

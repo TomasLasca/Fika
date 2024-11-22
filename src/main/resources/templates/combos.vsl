@@ -1,0 +1,91 @@
+
+<section id="combos" class="combos">
+    
+    
+    <!-- Filtro de búsqueda -->
+    <div class="mt-4 p-3 container-md card">
+        <div class="row">
+            <!-- Campo para Número de Combo -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="nombreCombo">Nombre de Combo</label>
+                    <input type="text" id="nombreCombo" class="form-control" placeholder="Nombre de Combo" aria-label="Nombre Combo">
+                </div>
+            </div>
+
+            <!-- Campo para Visibilidad de combo -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="estadoCombo">Estado Combo</label>
+                    <select class="form-control" id="estadoPedido">
+                        <option value="todos">Todos</option>
+                        <option value="visible">Visible</option>
+                        <option value="eno visible">No Visible</option>
+                        
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botón de búsqueda -->
+            <div class="col-md-4 align-self-end">
+                <button type="button" class="w-100 btn btn-light-coffe" onclick="buscarCombos()">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Combos -->
+    <div class="mt-4 container-md card">
+        <table class="mt-3 table">
+            <thead>
+                <tr>
+                    <th scope="col">#Nro de combo</th>
+                    <th scope="col">Nombre de Combo</th>
+                    <th scope="col">Comida</th>
+                    <th scope="col">Cantidad Comida</th>
+                    <th scope="col">Bebida</th>
+                    <th scope="col">Cantidad Bebida</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Descripcion</th>
+
+                    <th scope="col">Visibilidad</th>
+                    <th class="text-center" scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCombos">
+                <!-- Aquí se mostrará la lista de combos filtrados -->
+                #if($combos.size() == 0)
+                <tr>
+                    <td class="text-center" colspan="7">Sin resultados</td>
+                </tr>
+                #end
+
+                #foreach($combo in $combos)
+                <tr>
+                    <th scope="row" id="idCombo">$combo.getId_combo()</th>
+                    <td>$combo.getNombre()</td>
+                    <td>$combo.getId_comida()</td>
+                    <td>$combo.getCantComida()</td>
+                    <td>$combo.getId_bebida()</td>
+                    <td>$combo.getCantBebida()</td>
+                    <td>$combo.getPrecio()</td>
+                    <td>$combo.getDescripcion()</td>
+                    <td>$combo.getVisible()</td>
+
+                    <td class="text-center"> 
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                            
+                            <button type="button" class="btn btn-outline-dark" title="Eliminar Combo" onclick=''>
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                           
+                        </div>
+                    </td>
+                
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+
+   
+</section>

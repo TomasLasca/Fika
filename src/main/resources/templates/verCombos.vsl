@@ -3,6 +3,7 @@
         <div class="container" style="color:white;">
             <div class="row" style="margin-bottom:20px;">
                 <div class="col-md-6 mx-auto text-center p-4 rounded" style="margin-bottom:20px;margin-top:60px;background-color: rgba(0, 0, 0, 0.5);">
+                    <label for="nombreCombo">Inserte nombre del combo</label>
                     <input id="nombreCombo" type="text" class="form-control mr-2" placeholder="Inserte nombre del combo" style="margin-bottom:12px;">
                     <label for="bebida">Inserte bebida para el combo</label>
                     <div id="bebida" class="input-group mb-3">
@@ -22,7 +23,9 @@
                         </select>
                         <input id="cantComida" type="number" class="form-control mr-2 sm-2" placeholder="Cantidad" name="cantidad2">
                     </div>
+                    <label for="descripcion">Descripcion para el combo</label>
                     <input id="descripcion" type="text" class="form-control mr-2" placeholder="Descripcion para el combo" style="margin-bottom:20px;">
+                    <label for="precio">Precio para el combo</label>
                     <input id="precio" type="number" class="form-control mr-2" placeholder="Precio para el combo" style="margin-bottom:20px;">
                     <button class="btn btn-primary" onclick="agregarCombo()">Guardar Combo</button>
                 </div>
