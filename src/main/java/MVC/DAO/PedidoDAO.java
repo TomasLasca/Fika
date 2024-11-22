@@ -10,9 +10,10 @@ import static Utils.Sql2oDAO.getSql2o;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import Utils.Util;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
+import java.sql.DriverManager;
 /**
  *
  * @author Tomas
@@ -91,7 +92,7 @@ public class PedidoDAO {
     return band;
     }
     
-   public Pedido getEstadoByNroPedido(int nro) {
+   public Pedido getPedido(int nro) {
     Pedido estado = null;
     try (Connection con = bd.getSql2o().open()) {
         String sql = "SELECT * FROM pedidos WHERE nro_pedido = :nro";
@@ -108,10 +109,13 @@ public class PedidoDAO {
         boolean band=false;
         try (Connection con = bd.getSql2o().open()) {
                 
-                String sql = "UPDATE pedidos SET estado = :nuevoEstado WHERE nro_pedido = :id";
-                con.createQuery(sql).addParameter("nuevoEstado",nuevoEstado).addParameter("id",id)
-                    .executeUpdate();
-                band=true;                
+                Pedido pedido = getPedido(id);
+                pedido.setEstado(nuevoEstado);
+                try{
+                    Util.updateEntity(con, pedido, "pedidos", "nro_Pedido", pedido.getNro_pedido()); 
+                }catch(Exception e){
+                    e.getMessage();
+                }                
             
         }
         catch(Exception e) {
