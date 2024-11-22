@@ -45,7 +45,7 @@ public class ComboDAO {
     
         try (Connection con = sql2o.getSql2o().open()) {
            
-            String sql = "INSERT INTO combos VALUES(:id_combo, :id_comida, :cantComida, :id_bebida , :cantBebida, :precio, :descripcion, :visible)";
+            String sql = "INSERT INTO combos VALUES(:id_combo, :nombre, :id_comida, :cantComida, :id_bebida , :cantBebida, :precio, :descripcion, :visible)";
             con.createQuery(sql)
                 .bind(combo)
                 .executeUpdate();

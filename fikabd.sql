@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2024 a las 01:16:09
+-- Tiempo de generación: 21-11-2024 a las 22:02:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -98,24 +98,24 @@ INSERT INTO `detallepedido` (`nro_pedido`, `id_producto`, `cantidad_producto`) V
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estados_pedido`
+-- Estructura de tabla para la tabla `estados_pedidos`
 --
 
-CREATE TABLE `estados_pedido` (
-  `id_estado` int(11) DEFAULT NULL,
-  `descripcion` varchar(20) DEFAULT NULL
+CREATE TABLE `estados_pedidos` (
+  `id_estado` int(11) NOT NULL,
+  `descripcion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `estados_pedido`
+-- Volcado de datos para la tabla `estados_pedidos`
 --
 
-INSERT INTO `estados_pedido` (`id_estado`, `descripcion`) VALUES
-(1, 'en preparacion'),
-(2, 'rechazado'),
-(3, 'preparado'),
-(3, 'entregado'),
-(5, 'pendiente');
+INSERT INTO `estados_pedidos` (`id_estado`, `descripcion`) VALUES
+(0, 'Pendiente'),
+(1, 'En preparación'),
+(2, 'Preparado'),
+(3, 'Entregado'),
+(5, 'Rechazado');
 
 -- --------------------------------------------------------
 
@@ -191,8 +191,8 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`nro_pedido`, `estado`, `id_usuario`, `fecha_pedido`, `hora_pedido`, `id_metodo`) VALUES
-(13, 'pendiente', 0, '2024-10-01', '8:00', 1),
-(14, 'en preparacion', 0, '2024-10-01', '8:00', 1),
+(13, 'Rechazado', 0, '2024-10-01', '8:00', 1),
+(14, 'entregado', 0, '2024-10-01', '8:00', 1),
 (15, 'rechazado', 0, '2024-10-01', '8:00', 1),
 (16, 'pendiente', 0, '2024-10-01', '8:00', 1),
 (1001, 'pendiente', 0, '2024-10-01', '12:30:00', 1),
@@ -302,6 +302,12 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `email`, `pass`, `tipo_u
 ALTER TABLE `detallepedido`
   ADD KEY `nro_pedido` (`nro_pedido`),
   ADD KEY `id_producto` (`id_producto`);
+
+--
+-- Indices de la tabla `estados_pedidos`
+--
+ALTER TABLE `estados_pedidos`
+  ADD PRIMARY KEY (`id_estado`);
 
 --
 -- Indices de la tabla `mesa`
