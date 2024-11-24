@@ -10,6 +10,8 @@ import MVC.DAO.ProductoDAO;
 import MVC.Models.Combo;
 import MVC.Models.Pedido;
 import MVC.Models.Producto;
+import Service.Isql2oDAO;
+import Utils.Sql2oDAO;
 import Velocity.VelocityTemplateEngine;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,8 @@ public class ComboControlador {
     
     public static Route viewCombos = (Request request, Response response) -> {
         HashMap model = new HashMap();
-        ComboDAO bd = new ComboDAO();
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
+        ComboDAO bd = new ComboDAO(sql2oDAO);
         ProductoDAO pDAO = new ProductoDAO();
         List<Producto> productosbebida = pDAO.getProductosBebibles();
         List<Producto> productocomidas = pDAO.getProductosComestibles();
@@ -41,7 +44,9 @@ public class ComboControlador {
     
     public static Route agregarCombo = (Request request, Response response) -> {
         HashMap model = new HashMap();
-        ComboDAO comboDAO = new ComboDAO();
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
+        ComboDAO comboDAO = new ComboDAO(sql2oDAO);
+
         Combo combo = new Combo();
         ProductoDAO pDAO = new ProductoDAO();
         List<Producto> productosbebida = pDAO.getProductosBebibles();
@@ -83,7 +88,8 @@ public class ComboControlador {
 
     public static Route verCombos = (Request request, Response response) ->{
         HashMap model = new HashMap();
-        ComboDAO bdCombos = new ComboDAO();
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
+        ComboDAO bdCombos = new ComboDAO(sql2oDAO);
         List<Combo> combos = bdCombos.getAllCombos();
 
         model.put("template", "templates/combos.vsl");  // .vsl donde se va a mostrar 

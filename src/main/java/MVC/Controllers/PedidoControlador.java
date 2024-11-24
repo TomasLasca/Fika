@@ -14,6 +14,8 @@ import MVC.Models.Carrito;
 import MVC.Models.Detalle;
 import MVC.Models.DetallePedido;
 import MVC.Models.estados_pedidos;
+import Service.Isql2oDAO;
+import Utils.Sql2oDAO;
 import MVC.Models.ItemCarrito;
 import MVC.Models.Producto;
 import Velocity.VelocityTemplateEngine;
@@ -31,11 +33,12 @@ import spark.Route;
 public class PedidoControlador {
         
         public static Route finalizar = (Request request, Response response) -> {
-        
-        PedidoDAO bd = new  PedidoDAO();
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
+
+        PedidoDAO bd = new  PedidoDAO(sql2oDAO);
         CarritoDAO carrito_bd = new CarritoDAO();
-        ItemCarritoDAO item_bd = new ItemCarritoDAO();
-        DetallePedidoDAO detalle_bd = new DetallePedidoDAO();
+        ItemCarritoDAO item_bd = new ItemCarritoDAO(sql2oDAO);
+        DetallePedidoDAO detalle_bd = new DetallePedidoDAO(sql2oDAO);
         int user_id = Integer.parseInt(request.queryParams("user_id"));
         int pago_id = Integer.parseInt(request.queryParams("pago_id"));
         String fecha = request.queryParams("fecha");
@@ -78,9 +81,10 @@ public class PedidoControlador {
     };
         
         public static Route viewPedidos = (Request request, Response response) -> {
+            Isql2oDAO sql2oDAO = new Sql2oDAO();
         HashMap model = new HashMap();
-        PedidoDAO bd = new  PedidoDAO();
-        estado_pedidosDAO bde = new estado_pedidosDAO();
+        PedidoDAO bd = new  PedidoDAO(sql2oDAO);
+        estado_pedidosDAO bde = new estado_pedidosDAO(sql2oDAO);
         List<Pedido> pedidos = bd.verPedidos();
         
         model.put("template", "templates/verPedidos.vsl");  // .vsl donde se va a mostrar 
@@ -91,7 +95,8 @@ public class PedidoControlador {
     };
         
     public static Route cambioEstado = (Request request, Response response) -> {
-        PedidoDAO pedidoDAO = new PedidoDAO();
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
+        PedidoDAO pedidoDAO = new PedidoDAO(sql2oDAO);
     
         int id_pedido = Integer.parseInt(request.queryParams("pedido_id"));
         String estado = request.queryParams("estado");

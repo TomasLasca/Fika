@@ -6,7 +6,7 @@ package MVC.DAO;
 
 import MVC.Models.DetallePedido;
 import MVC.Models.ItemCarrito;
-import static Utils.Sql2oDAO.getSql2o;
+import Service.Isql2oDAO;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -15,11 +15,15 @@ import org.sql2o.Sql2o;
  * @author Martin
  */
 public class DetallePedidoDAO {
+    private final Isql2oDAO bd; // Referencia a la interfaz
+    
+    public DetallePedidoDAO(Isql2oDAO sql2oDAO) {
+        this.bd = sql2oDAO; // Inyección de dependencia
+    }
         public void cargarDetalle(DetallePedido detalle){
-        Sql2o bd;
-        bd = getSql2o();
+       
         
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
            
             String sql = "INSERT INTO detallepedido VALUES(:nro_pedido, :id_producto, :cantidad_producto )";
             con.createQuery(sql)

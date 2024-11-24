@@ -14,29 +14,29 @@ public class Util {
     
    public static <T> void updateEntity(
         org.sql2o.Connection connection,
-        Pedido entity,
+        T entity,
         String tableName,
         String idColumnName,
         int idValue,
         List<String> fieldsToUpdate) throws SQLException, IllegalAccessException {
     
     Class<?> clazz = entity.getClass();
-    Field[] fields = clazz.getDeclaredFields(); // Obtiene los campos de la clase
+    Field[] fields = clazz.getDeclaredFields();
 
     StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
 
-    // Construir las columnas y placeholders para el UPDATE basado en fieldsToUpdate
+    
     for (Field field : fields) {
         if (fieldsToUpdate.contains(field.getName())) {
             sql.append(field.getName()).append(" = ?, ");
         }
     }
 
-    // Validar que haya campos para actualizar
+ 
     if (sql.lastIndexOf(",") == -1) {
         throw new IllegalArgumentException("No fields to update. Ensure fieldsToUpdate is not empty.");
     }
-       
+
     sql.setLength(sql.length() - 2);
     sql.append(" WHERE ").append(idColumnName).append(" = ?");
 
@@ -47,7 +47,7 @@ public class Util {
 
         int index = 1;
 
-        // Asignar los valores a los placeholders
+        
         for (Field field : fields) {
             if (fieldsToUpdate.contains(field.getName())) {
                 field.setAccessible(true);
@@ -56,7 +56,7 @@ public class Util {
             }
         }
 
-        // Asigna el valor del ID
+       
         preparedStatement.setObject(index, idValue);
 
         // Ejecutar el UPDATE

@@ -8,6 +8,8 @@ import MVC.DAO.CarritoDAO;
 import MVC.DAO.ItemCarritoDAO;
 import MVC.Models.Carrito;
 import MVC.Models.ItemCarrito;
+import Utils.Sql2oDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -21,10 +23,10 @@ import spark.Route;
  */
 public class ItemCarritoControlador {
     public static Route detalle = (Request req, Response res) -> {
-
+        
         ObjectMapper mapper = new ObjectMapper();
         int id = Integer.parseInt(req.queryParams("carrito_id"));
-        ItemCarritoDAO bd = new ItemCarritoDAO();
+        ItemCarritoDAO bd = new ItemCarritoDAO(null);
         
         List<ItemCarrito> items = bd.obtenerItemsByCarritoId(id);
         
@@ -45,7 +47,7 @@ public class ItemCarritoControlador {
         new_item.setCantidad(cantidad);
         new_item.setId_producto(producto_id);
         
-        ItemCarritoDAO bd = new ItemCarritoDAO();
+        ItemCarritoDAO bd = new ItemCarritoDAO(null);
         
         bd.cargarItemCarrito(new_item);
         
@@ -62,7 +64,7 @@ public class ItemCarritoControlador {
         
 
         
-        ItemCarritoDAO bd = new ItemCarritoDAO();
+        ItemCarritoDAO bd = new ItemCarritoDAO(null);
         
         bd.actualizarItemCarrito(carrito_id, producto_id, cantidad);
         

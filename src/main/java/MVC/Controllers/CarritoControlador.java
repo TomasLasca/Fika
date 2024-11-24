@@ -7,6 +7,8 @@ package MVC.Controllers;
 import MVC.DAO.CarritoDAO;
 import MVC.DAO.ItemCarritoDAO;
 import MVC.Models.Producto;
+import Service.Isql2oDAO;
+import Utils.Sql2oDAO;
 import MVC.DAO.ProductoDAO;
 import MVC.Models.Carrito;
 import MVC.Models.Detalle;
@@ -106,19 +108,7 @@ public class CarritoControlador {
     
     
     
-    public static Route detalle = (Request req, Response res) -> {
-        /*String json_item = req.cookie("item");
-        ProductoDAO bd = new ProductoDAO();
-        Carrito c = new Carrito();*/
-                /*if (json_item != null) {
-            TempItem[] items = Fika.gson.fromJson(json_item, TempItem[].class);
-            for(TempItem item: items) {
-                int producto_id = Integer.parseInt(item.getId());
-                int cantidad_producto = Integer.parseInt(item.getCantidad());
-                List<Producto> producto = bd.obtenerProductoId(producto_id);
-                c.addItem(producto.get(0), cantidad_producto);
-            }
-        }*/
+    public static Route detalle = (Request req, Response res) -> {     
         ObjectMapper mapper = new ObjectMapper();
         int id = Integer.parseInt(req.queryParams("user_id"));
         CarritoDAO bd = new CarritoDAO();
@@ -128,24 +118,12 @@ public class CarritoControlador {
         return json;
     };
     
-        public static Route carrito = (Request req, Response res) -> {
-        /*String json_item = req.cookie("item");
-        ProductoDAO bd = new ProductoDAO();
-        Carrito c = new Carrito();*/
-                /*if (json_item != null) {
-            TempItem[] items = Fika.gson.fromJson(json_item, TempItem[].class);
-            for(TempItem item: items) {
-                int producto_id = Integer.parseInt(item.getId());
-                int cantidad_producto = Integer.parseInt(item.getCantidad());
-                List<Producto> producto = bd.obtenerProductoId(producto_id);
-                c.addItem(producto.get(0), cantidad_producto);
-            }
-        }*/
-        
+        public static Route carrito = (Request req, Response res) -> {      
+        Isql2oDAO sql2oDAO = new Sql2oDAO();
         int id = Integer.parseInt(req.queryParams("user_id"));
         HashMap model = new HashMap();
         CarritoDAO bd = new CarritoDAO();
-        ItemCarritoDAO item_bd = new  ItemCarritoDAO();
+        ItemCarritoDAO item_bd = new  ItemCarritoDAO(sql2oDAO);
         ProductoDAO productos_bd = new ProductoDAO();
         Carrito c = bd.getCarritoByUserId(id).get(0);
         

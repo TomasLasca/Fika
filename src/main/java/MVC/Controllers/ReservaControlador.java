@@ -26,7 +26,7 @@ public class ReservaControlador {
     public static Route setReserva = (Request request, Response response) -> {
          
         Reserva reserva = new Reserva();
-        ReservaDAO rDAO = new ReservaDAO();
+        ReservaDAO rDAO = new ReservaDAO(null);
         
         int a =4;
         

@@ -5,24 +5,19 @@
 package MVC.DAO;
 
 import MVC.Models.Pedido;
-import Utils.Sql2oDAO;
-import static Utils.Sql2oDAO.getSql2o;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import Service.Isql2oDAO;
 import java.util.Arrays;
 import java.util.List;
 import Utils.Util;
 import org.sql2o.Connection;
-import org.sql2o.Sql2o;
-import java.sql.DriverManager;
-/**
- *
- * @author Tomas
- */
+
 public class PedidoDAO {
      private List<Pedido> pedidos;
-     
-     Sql2oDAO bd;  
+    private final Isql2oDAO bd; // Referencia a la interfaz
+    
+    public PedidoDAO(Isql2oDAO sql2oDAO) {
+        this.bd = sql2oDAO; // Inyección de dependencia
+    }
 
     public void cargarPedido(Pedido pedido){
         pedido.setEstado("en preparacion");

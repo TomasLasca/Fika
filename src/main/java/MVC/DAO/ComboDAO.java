@@ -6,6 +6,7 @@ package MVC.DAO;
 
 import MVC.Models.Combo;
 import MVC.Models.Pedido;
+import Service.Isql2oDAO;
 import Utils.Sql2oDAO;
 
 import java.util.List;
@@ -20,7 +21,10 @@ import org.sql2o.Sql2o;
 public class ComboDAO {
      
     List<Combo> combos;
-    Sql2oDAO sql2o;   
+    Isql2oDAO sql2o; 
+    public ComboDAO(Isql2oDAO sql2oDAO) {
+        this.sql2o = sql2oDAO; // Inyección de dependencia
+    }  
     
     public List<Combo> getAllCombos() {     
 

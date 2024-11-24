@@ -10,15 +10,25 @@ package Utils;
  */
 import org.sql2o.Sql2o;
 
-public class Sql2oDAO {
-    protected static Sql2o sql2o;
-    
-    public static Sql2o getSql2o() {
-        if (sql2o == null) {
-        sql2o = new
-        Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
-    }
-    return sql2o;
-    }
+import Service.Isql2oDAO;
 
+public class Sql2oDAO implements Isql2oDAO {
+    private static volatile Sql2o sql2o;
+
+    @Override
+    public Sql2o getSql2o() {
+        if (sql2o == null) {
+            synchronized (Sql2oDAO.class) {
+                if (sql2o == null) {
+                    try {
+                        sql2o = new Sql2o("jdbc:mysql://localhost:3306/fikabd", "root", "");
+                    } catch (Exception e) {
+                        System.err.println("Error al inicializar Sql2o: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return sql2o;
+    }
 }

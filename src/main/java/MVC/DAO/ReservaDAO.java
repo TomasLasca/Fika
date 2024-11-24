@@ -5,23 +5,21 @@
 package MVC.DAO;
 
 import MVC.Models.Reserva;
-import Utils.Sql2oDAO;
-import static Utils.Sql2oDAO.getSql2o;
-import java.util.List;
+import Service.Isql2oDAO;
 import org.sql2o.Connection;
-import org.sql2o.Sql2o;
 
-/**
- *
- * @author Tomas
- */
+
+
 public class ReservaDAO {
+    private final Isql2oDAO bd; // Referencia a la interfaz
     
+    public ReservaDAO(Isql2oDAO sql2oDAO) {
+        this.bd = sql2oDAO; // Inyección de dependencia
+    }
     public void realizar_reserva(Reserva reserva){
-        Sql2o bd;
-        bd = getSql2o();
+  
         
-        try (Connection con = bd.open()) {
+        try (Connection con = bd.getSql2o().open()) {
            
             String sql = "INSERT INTO reserva VALUES(:nro_reserva, :fecha_reserva, :sillas, :hora,:nombre)";
             con.createQuery(sql)
